@@ -1,0 +1,20 @@
+### Health
+GET http://localhost:5000/api/health
+
+### Products
+GET http://localhost:5000/api/products
+
+### Categories
+GET http://localhost:5000/api/categories
+
+### Brands
+GET http://localhost:5000/api/brands
+
+### Product Details
+GET http://localhost:5000/api/products/aerodrive-c145-1404-4500kv-brushless-motor
+
+### Search
+GET http://localhost:5000/api/products?search=AeroDrive
+
+### Price Filter
+GET http://localhost:5000/api/products?minPrice=1000&maxPrice=5000

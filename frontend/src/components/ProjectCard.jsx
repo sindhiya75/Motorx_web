@@ -1,0 +1,70 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Cpu, Wrench, Clock, ArrowRight, Layers } from 'lucide-react';
+
+export default function ProjectCard({ project }) {
+  if (!project) return null;
+
+  return (
+    <div className="group flex flex-col bg-white rounded-2xl border border-gray-200 hover:border-primary/40 shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden">
+      {/* Image Header */}
+      <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
+        <img
+          src={project.image}
+          alt={project.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <div className="absolute top-3 left-3 bg-navy-deep/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-navy-light/40">
+          {project.difficulty}
+        </div>
+        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-gray-800 text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+          <Clock className="w-3 h-3 text-primary" /> {project.estimatedBuildTime}
+        </div>
+      </div>
+
+      {/* Details Body */}
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-lg font-bold text-navy group-hover:text-primary transition-colors mb-1.5">
+          {project.name}
+        </h3>
+        <p className="text-xs text-gray-600 line-clamp-2 mb-4 leading-relaxed">
+          {project.shortDescription}
+        </p>
+
+        {/* Required Motors Section */}
+        <div className="mb-3 p-2.5 bg-blue-50/70 rounded-xl border border-blue-100">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
+            <Cpu className="w-3.5 h-3.5" /> Required Motors:
+          </div>
+          <ul className="text-[11px] font-medium text-gray-700 space-y-0.5 pl-5 list-disc">
+            {project.requiredMotors.map((m, idx) => (
+              <li key={idx}>{m}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Required Components Section */}
+        <div className="mb-5 p-2.5 bg-gray-50 rounded-xl border border-gray-100">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-gray-700 mb-1">
+            <Wrench className="w-3.5 h-3.5 text-gray-500" /> Required Components:
+          </div>
+          <div className="flex flex-wrap gap-1">
+            {project.requiredComponents.map((c, idx) => (
+              <span key={idx} className="text-[10px] bg-white text-gray-600 px-2 py-0.5 rounded border border-gray-200">
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Action button */}
+        <Link
+          to={`/motors`}
+          className="mt-auto w-full py-2.5 px-4 bg-primary hover:bg-primary-hover text-white text-xs font-bold rounded-xl transition-colors text-center flex items-center justify-center gap-2 shadow-sm"
+        >
+          VIEW PROJECT MOTORS <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
+      </div>
+    </div>
+  );
+}
