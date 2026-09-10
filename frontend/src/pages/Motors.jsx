@@ -187,10 +187,10 @@ export default function Motors() {
           {/* Active Filter Chips */}
           {(filters.category || filters.kvRating || filters.voltage || filters.brands.length > 0 || filters.motorTypes.length > 0 || filters.search) && (
             <div className="flex flex-wrap items-center gap-2 pt-1">
-              <span className="text-xs font-bold text-gray-400">Active Filters:</span>
+              <span className="text-xs font-bold text-slate-600">Active Filters:</span>
 
               {filters.category && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-primary border border-blue-200">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-primary border border-blue-300 shadow-sm">
                   Category: {filters.category}
                   <X className="w-3 h-3 cursor-pointer" onClick={() => handleFilterChange('category', '')} />
                 </span>

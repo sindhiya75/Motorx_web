@@ -90,11 +90,11 @@ export default function Cart() {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0 text-center sm:text-left space-y-1">
-                    <span className="text-[11px] font-mono text-gray-400">{item.sku}</span>
+                    <span className="text-xs font-mono text-slate-600 font-bold">{item.sku}</span>
                     <Link to={`/products/${item.slug}`} className="block font-bold text-gray-900 text-sm hover:text-primary transition-colors line-clamp-2">
                       {item.name}
                     </Link>
-                    <div className="text-xs text-gray-500">{item.category} • {item.brand}</div>
+                    <div className="text-xs text-slate-600 font-medium">{item.category} • {item.brand}</div>
                     <div className="text-sm font-bold text-navy pt-1">
                       {formatINR(itemPrice)}
                     </div>
@@ -109,7 +109,7 @@ export default function Cart() {
                     />
 
                     <div className="text-right">
-                      <div className="text-xs text-gray-400">Total:</div>
+                      <div className="text-xs text-slate-500 font-semibold">Total:</div>
                       <div className="text-base font-extrabold text-primary">
                         {formatINR(itemPrice * item.quantity)}
                       </div>
@@ -117,7 +117,7 @@ export default function Cart() {
 
                     <button
                       onClick={() => removeFromCart(item.id)}
-                      className="text-gray-400 hover:text-rose-600 p-1 transition-colors"
+                      className="text-slate-500 hover:text-rose-600 p-1 transition-colors"
                       title="Remove item"
                     >
                       <Trash2 className="w-4 h-4" />

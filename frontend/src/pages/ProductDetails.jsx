@@ -147,7 +147,7 @@ export default function ProductDetails() {
           
           {/* Header & Badges */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs text-gray-400 font-mono">
+            <div className="flex items-center justify-between text-xs text-slate-600 font-mono font-bold">
               <span>SKU: {product.sku}</span>
               <span className="text-primary font-bold">{product.brand}</span>
             </div>
@@ -158,8 +158,8 @@ export default function ProductDetails() {
 
             <div className="flex items-center gap-4 pt-1">
               <RatingStars rating={product.rating} reviewCount={product.reviewCount} size="sm" />
-              <span className="text-xs text-gray-300">•</span>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              <span className="text-xs text-slate-400 font-bold">•</span>
+              <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-300">
                 100% Certified Material
               </span>
             </div>
@@ -275,7 +275,7 @@ export default function ProductDetails() {
           </div>
 
           {/* Trust Guarantees */}
-          <div className="grid grid-cols-3 gap-2 pt-4 border-t border-gray-200 text-[11px] text-gray-500 font-medium">
+          <div className="grid grid-cols-3 gap-2 pt-4 border-t border-gray-200 text-xs text-slate-700 font-semibold">
             <div className="flex items-center gap-1.5">
               <Truck className="w-4 h-4 text-primary shrink-0" />
               <span>Pan-India Shipping</span>
@@ -308,10 +308,10 @@ export default function ProductDetails() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-4 text-xs font-bold uppercase tracking-wider whitespace-nowrap flex items-center gap-2 border-b-2 transition-colors ${
+                className={`px-6 py-4 text-xs font-extrabold uppercase tracking-wider whitespace-nowrap flex items-center gap-2 border-b-2 transition-colors ${
                   active
-                    ? 'border-primary text-primary bg-white font-extrabold'
-                    : 'border-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-100/50'
+                    ? 'border-primary text-primary bg-white font-extrabold shadow-sm'
+                    : 'border-transparent text-slate-700 hover:text-navy hover:bg-gray-100/70 font-bold'
                 }`}
               >
                 <IconComp className="w-4 h-4" />

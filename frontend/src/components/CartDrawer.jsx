@@ -33,7 +33,7 @@ export default function CartDrawer() {
           <div className="p-5 bg-navy text-white flex items-center justify-between border-b border-navy-light">
             <div className="flex items-center gap-2">
               <ShoppingBag className="w-5 h-5 text-blue-400" />
-              <h2 className="font-bold text-lg">Your Cart ({summary.itemCount})</h2>
+              <h2 className="font-bold text-lg text-white">Your Cart ({summary.itemCount})</h2>
             </div>
             <button
               onClick={closeCart}
@@ -115,14 +115,14 @@ export default function CartDrawer() {
                         </Link>
                         <button
                           onClick={() => removeFromCart(item.id)}
-                          className="text-gray-400 hover:text-rose-600 p-1 transition-colors"
+                          className="text-slate-500 hover:text-rose-600 p-1 transition-colors"
                           title="Remove item"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
-                      <div className="text-xs font-mono text-gray-400 font-medium">
+                      <div className="text-xs font-mono text-slate-600 font-semibold">
                         {item.sku}
                       </div>
 

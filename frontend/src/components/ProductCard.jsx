@@ -81,18 +81,18 @@ export default function ProductCard({ product }) {
           onClick={handleWishlistClick}
           className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-md transition-all duration-200 ${
             inWishlist
-              ? 'bg-rose-50 text-rose-500 border border-rose-200 shadow-sm'
-              : 'bg-white/80 text-gray-400 hover:text-rose-500 hover:bg-white border border-gray-200/80 shadow-sm'
+              ? 'bg-rose-50 text-rose-600 border border-rose-200 shadow-sm'
+              : 'bg-white/90 text-slate-500 hover:text-rose-600 hover:bg-white border border-gray-300 shadow-sm'
           }`}
           aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
         >
-          <Heart className={`w-4 h-4 ${inWishlist ? 'fill-rose-500' : ''}`} />
+          <Heart className={`w-4 h-4 ${inWishlist ? 'fill-rose-600' : ''}`} />
         </button>
 
         {/* Stock status badge overlay top-left */}
         <div className="absolute top-3 left-3 flex flex-col gap-1">
           {product.featured && (
-            <span className="bg-navy text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow-sm inline-flex items-center gap-1">
+            <span className="bg-navy text-white text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded shadow-sm inline-flex items-center gap-1">
               <Sparkles className="w-3 h-3 text-amber-300" /> Featured
             </span>
           )}
@@ -102,7 +102,7 @@ export default function ProductCard({ product }) {
       {/* Product Content Details */}
       <div className="flex flex-col flex-1 p-4">
         {/* SKU */}
-        <div className="text-[11px] font-mono text-gray-400 mb-1 tracking-wider uppercase">
+        <div className="text-xs font-mono text-slate-600 font-semibold mb-1 tracking-wider uppercase">
           {product.sku}
         </div>
 

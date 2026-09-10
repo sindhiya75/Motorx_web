@@ -76,15 +76,15 @@ export default function SearchBar({ placeholder = "Search 2306, 4500KV, brushles
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
-          className="w-full bg-gray-100/90 focus:bg-white text-gray-900 text-sm font-medium pl-10 pr-10 py-2.5 rounded-xl border border-transparent focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+          className="w-full bg-gray-100/90 focus:bg-white text-gray-900 placeholder:text-gray-500 text-sm font-medium pl-10 pr-10 py-2.5 rounded-xl border border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
         />
-        <Search className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
+        <Search className="w-4 h-4 text-slate-500 absolute left-3.5 pointer-events-none" />
 
         {query && (
           <button
             type="button"
             onClick={() => setQuery('')}
-            className="absolute right-3 p-1 text-gray-400 hover:text-gray-600 rounded-full"
+            className="absolute right-3 p-1 text-slate-500 hover:text-gray-700 rounded-full"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -94,7 +94,7 @@ export default function SearchBar({ placeholder = "Search 2306, 4500KV, brushles
       {/* Auto-complete Dropdown */}
       {isOpen && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50 max-h-96 overflow-y-auto">
-          <div className="px-3 py-1.5 text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between border-b border-gray-100">
+          <div className="px-3 py-1.5 text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center justify-between border-b border-gray-100">
             <span>Matching Products</span>
             <span>{loading ? 'Searching...' : `${suggestions.length} results`}</span>
           </div>
@@ -113,9 +113,9 @@ export default function SearchBar({ placeholder = "Search 2306, 4500KV, brushles
                     className="w-10 h-10 object-contain bg-gray-50 rounded p-1 border border-gray-100 shrink-0"
                   />
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs font-mono text-primary font-medium">{item.sku}</div>
-                    <div className="text-xs font-semibold text-gray-900 truncate">{item.name}</div>
-                    <div className="text-[11px] text-gray-500">{item.category} • {item.brand}</div>
+                    <div className="text-xs font-mono text-primary font-bold">{item.sku}</div>
+                    <div className="text-xs font-bold text-gray-900 truncate">{item.name}</div>
+                    <div className="text-xs text-slate-600 font-medium">{item.category} • {item.brand}</div>
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-xs font-bold text-navy">
@@ -136,9 +136,9 @@ export default function SearchBar({ placeholder = "Search 2306, 4500KV, brushles
             </div>
           ) : (
             <div className="p-4 text-center">
-              <Zap className="w-6 h-6 text-gray-300 mx-auto mb-2" />
-              <p className="text-xs font-semibold text-gray-700">No matching motors found</p>
-              <p className="text-[11px] text-gray-500 mt-0.5">
+              <Zap className="w-6 h-6 text-gray-400 mx-auto mb-2" />
+              <p className="text-xs font-bold text-gray-800">No matching motors found</p>
+              <p className="text-xs text-slate-600 font-medium mt-0.5">
                 Try searching for "2306", "4500KV", "brushless", "FPV", or "AeroDrive"
               </p>
             </div>

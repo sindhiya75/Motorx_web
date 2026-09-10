@@ -406,17 +406,17 @@ export default function Checkout() {
                     className={`p-3 rounded-xl border text-center flex flex-col items-center justify-center gap-2 transition-all ${
                       active
                         ? 'border-primary bg-primary text-white font-bold shadow-md'
-                        : 'border-gray-200 text-gray-700 hover:border-gray-300 bg-gray-50'
+                        : 'border-gray-200 text-slate-800 hover:border-gray-300 bg-gray-50 font-bold'
                     }`}
                   >
                     <IconComp className="w-5 h-5" />
-                    <span className="text-[11px] leading-snug">{pm.label}</span>
+                    <span className="text-xs font-bold leading-snug">{pm.label}</span>
                   </button>
                 );
               })}
             </div>
 
-            <div className="p-3 bg-blue-50/70 border border-blue-100 rounded-xl text-xs text-blue-900 flex items-center gap-2">
+            <div className="p-3 bg-blue-50/70 border border-blue-100 rounded-xl text-xs font-semibold text-blue-900 flex items-center gap-2">
               <Lock className="w-4 h-4 text-primary shrink-0" />
               <span>
                 {paymentMethod === 'cod'
@@ -441,8 +441,8 @@ export default function Checkout() {
                 <div key={item.id} className="flex items-center gap-3 text-xs">
                   <img src={item.image} alt={item.name} className="w-12 h-12 object-contain bg-gray-50 rounded border p-1 shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-gray-900 truncate">{item.name}</div>
-                    <div className="text-gray-400">Qty: {item.quantity} × {formatINR(item.salePrice || item.price)}</div>
+                    <div className="font-bold text-gray-900 truncate">{item.name}</div>
+                    <div className="text-slate-500 font-medium">Qty: {item.quantity} × {formatINR(item.salePrice || item.price)}</div>
                   </div>
                   <div className="font-bold text-navy">
                     {formatINR((item.salePrice || item.price) * item.quantity)}

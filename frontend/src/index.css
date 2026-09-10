@@ -8,7 +8,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply text-navy font-bold tracking-tight;
+    @apply font-bold tracking-tight;
   }
 }
 
@@ -41,19 +41,19 @@
 }
 
 .badge-in-stock {
-  @apply bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold px-2 py-0.5 rounded-full inline-flex items-center gap-1;
+  @apply bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1;
 }
 
 .badge-low-stock {
-  @apply bg-amber-50 text-amber-700 border border-amber-200 text-xs font-semibold px-2 py-0.5 rounded-full inline-flex items-center gap-1;
+  @apply bg-amber-50 text-amber-800 border border-amber-300 text-xs font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1;
 }
 
 .badge-out-of-stock {
-  @apply bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold px-2 py-0.5 rounded-full inline-flex items-center gap-1;
+  @apply bg-rose-50 text-rose-800 border border-rose-300 text-xs font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1;
 }
 
 .badge-price-on-request {
-  @apply bg-blue-50 text-primary border border-blue-200 text-xs font-semibold px-2 py-0.5 rounded-full inline-flex items-center gap-1;
+  @apply bg-blue-50 text-primary-dark border border-blue-300 text-xs font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1;
 }
 
 @keyframes spinSlow {

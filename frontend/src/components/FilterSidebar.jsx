@@ -46,7 +46,7 @@ export default function FilterSidebar({
         <button
           type="button"
           onClick={onResetFilters}
-          className="text-xs font-medium text-gray-500 hover:text-primary flex items-center gap-1 transition-colors"
+          className="text-xs font-bold text-slate-600 hover:text-primary flex items-center gap-1 transition-colors"
         >
           <RefreshCw className="w-3 h-3" />
           CLEAR ALL
@@ -67,7 +67,7 @@ export default function FilterSidebar({
                 className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center justify-between ${
                   active
                     ? 'bg-blue-50 text-primary font-bold'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    : 'text-slate-700 hover:bg-gray-100 hover:text-gray-900 font-semibold'
                 }`}
               >
                 <span>{cat}</span>
@@ -93,7 +93,7 @@ export default function FilterSidebar({
           onChange={(e) => onFilterChange('maxPrice', Number(e.target.value))}
           className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
         />
-        <div className="flex justify-between text-[11px] text-gray-400 mt-1 font-mono">
+        <div className="flex justify-between text-xs text-slate-600 mt-1 font-mono font-bold">
           <span>₹0</span>
           <span>₹50,000</span>
         </div>

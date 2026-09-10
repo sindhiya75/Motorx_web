@@ -19,7 +19,7 @@ export default function RatingStars({ rating = 0, reviewCount, size = "sm", show
                   ? 'fill-amber-400 text-amber-400'
                   : half
                   ? 'fill-amber-400/50 text-amber-400'
-                  : 'text-gray-300'
+                  : 'text-slate-400'
               }`}
             />
           );
@@ -27,13 +27,13 @@ export default function RatingStars({ rating = 0, reviewCount, size = "sm", show
       </div>
       
       {showValue && (
-        <span className="text-xs font-semibold text-gray-800 ml-0.5">
+        <span className="text-xs font-bold text-slate-900 ml-0.5">
           {rating.toFixed(1)}
         </span>
       )}
       
       {reviewCount !== undefined && (
-        <span className="text-xs text-gray-500">
+        <span className="text-xs text-slate-600 font-medium">
           ({reviewCount})
         </span>
       )}

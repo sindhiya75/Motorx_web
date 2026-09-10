@@ -114,9 +114,9 @@ export default function OrderTracking() {
       {/* Header Banner */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="text-xs text-gray-400 font-medium">Order Status & Live Tracking</div>
+          <div className="text-xs text-slate-600 font-bold">Order Status & Live Tracking</div>
           <h1 className="text-2xl font-extrabold text-navy font-mono">#{order.orderNumber}</h1>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-slate-600 font-medium mt-1">
             Placed on {new Date(order.createdAt).toLocaleDateString()} • {order.items.length} Items • Total: {formatINR(order.totalAmount)}
           </p>
         </div>
@@ -146,31 +146,31 @@ export default function OrderTracking() {
                       ? step.current
                         ? 'bg-primary text-white ring-4 ring-blue-100'
                         : 'bg-emerald-600 text-white'
-                      : 'bg-gray-100 text-gray-400 border border-gray-300'
+                      : 'bg-gray-100 text-slate-500 border border-gray-300'
                   }`}
                 >
                   {step.completed ? (
                     <CheckCircle2 className="w-4 h-4" />
                   ) : (
-                    <span className="text-[11px]">{idx + 1}</span>
+                    <span className="text-xs font-bold">{idx + 1}</span>
                   )}
                 </div>
 
                 {/* Step Details */}
                 <div className="space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className={`text-sm font-bold ${step.completed ? 'text-navy' : 'text-gray-400'}`}>
+                    <h3 className={`text-sm font-bold ${step.completed ? 'text-navy' : 'text-slate-600'}`}>
                       {step.title}
                     </h3>
                     {step.current && (
-                      <span className="text-[10px] font-bold bg-blue-100 text-primary px-2 py-0.5 rounded-full uppercase tracking-wider">
+                      <span className="text-xs font-bold bg-blue-50 text-primary border border-blue-200 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                         {order.status}
                       </span>
                     )}
                   </div>
 
-                  <div className="text-xs font-mono text-gray-500">{step.date}</div>
-                  <p className="text-xs text-gray-600 leading-relaxed">{step.desc}</p>
+                  <div className="text-xs font-mono text-slate-600 font-medium">{step.date}</div>
+                  <p className="text-xs text-slate-700 leading-relaxed font-medium">{step.desc}</p>
                 </div>
               </div>
             );

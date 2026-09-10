@@ -130,7 +130,7 @@ export default function AdminDashboard() {
         {/* Admin Navigation Sidebar */}
         <aside className="w-full md:w-64 shrink-0 space-y-2">
           <div className="bg-white p-3 rounded-2xl border border-gray-200 shadow-card space-y-1">
-            <div className="px-3 py-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+            <div className="px-3 py-2 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
               Control Modules
             </div>
 
@@ -157,21 +157,21 @@ export default function AdminDashboard() {
                       ? 'text-rose-600 hover:bg-rose-50'
                       : active
                       ? 'bg-primary text-white shadow-md'
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-navy'
+                      : 'text-slate-800 hover:bg-gray-100 hover:text-navy font-bold'
                   }`}
                 >
-                  <IconComp className={`w-4 h-4 ${active ? 'text-white' : item.danger ? 'text-rose-600' : 'text-gray-500'}`} />
+                  <IconComp className={`w-4 h-4 ${active ? 'text-white' : item.danger ? 'text-rose-600' : 'text-slate-500'}`} />
                   <span>{item.label}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="p-4 bg-blue-50/70 border border-blue-100 rounded-2xl text-[11px] text-gray-600 space-y-1">
+          <div className="p-4 bg-blue-50/70 border border-blue-100 rounded-2xl text-xs text-slate-700 space-y-1 font-medium">
             <div className="font-bold text-navy flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Active PostgreSQL Connection
             </div>
-            <p className="text-gray-500 text-[10px]">
+            <p className="text-slate-600 text-xs font-medium">
               Admin auth & live store data backed by Node.js/Express API.
             </p>
           </div>
@@ -204,7 +204,7 @@ function DashboardTab({ metrics, loading, onSelectTab }) {
       <div className="flex items-center justify-between border-b border-gray-200 pb-3">
         <div>
           <h2 className="text-2xl font-extrabold text-navy">Store Analytics & Control Panel</h2>
-          <p className="text-xs text-gray-500">Live PostgreSQL metric summary and quick store actions</p>
+          <p className="text-xs text-slate-600 font-medium">Live PostgreSQL metric summary and quick store actions</p>
         </div>
       </div>
 
@@ -212,9 +212,9 @@ function DashboardTab({ metrics, loading, onSelectTab }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-card flex items-center justify-between">
           <div>
-            <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Revenue</div>
+            <div className="text-xs font-bold text-slate-600 uppercase tracking-wider">Total Revenue</div>
             <div className="text-2xl font-extrabold text-navy mt-1">{formatINR(metrics.totalRevenue)}</div>
-            <div className="text-[11px] text-emerald-600 font-semibold mt-1">✓ Express DB Calculated</div>
+            <div className="text-xs text-emerald-700 font-bold mt-1">✓ Express DB Calculated</div>
           </div>
           <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center font-bold">
             <IndianRupee className="w-6 h-6" />
@@ -223,9 +223,9 @@ function DashboardTab({ metrics, loading, onSelectTab }) {
 
         <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-card flex items-center justify-between">
           <div>
-            <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Orders</div>
+            <div className="text-xs font-bold text-slate-600 uppercase tracking-wider">Total Orders</div>
             <div className="text-2xl font-extrabold text-navy mt-1">{metrics.totalOrders}</div>
-            <div className="text-[11px] text-primary font-semibold mt-1">{metrics.pendingOrders} Pending Processing</div>
+            <div className="text-xs text-primary font-bold mt-1">{metrics.pendingOrders} Pending Processing</div>
           </div>
           <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center font-bold">
             <ShoppingCart className="w-6 h-6" />
@@ -234,9 +234,9 @@ function DashboardTab({ metrics, loading, onSelectTab }) {
 
         <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-card flex items-center justify-between">
           <div>
-            <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Catalog Products</div>
+            <div className="text-xs font-bold text-slate-600 uppercase tracking-wider">Catalog Products</div>
             <div className="text-2xl font-extrabold text-navy mt-1">{metrics.totalProducts}</div>
-            <div className="text-[11px] text-gray-500 font-semibold mt-1">Active SKUs</div>
+            <div className="text-xs text-slate-600 font-bold mt-1">Active SKUs</div>
           </div>
           <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center font-bold">
             <Package className="w-6 h-6" />
@@ -245,9 +245,9 @@ function DashboardTab({ metrics, loading, onSelectTab }) {
 
         <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-card flex items-center justify-between">
           <div>
-            <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Stock Alerts</div>
+            <div className="text-xs font-bold text-slate-600 uppercase tracking-wider">Stock Alerts</div>
             <div className="text-2xl font-extrabold text-amber-600 mt-1">{metrics.lowStockCount}</div>
-            <div className="text-[11px] text-gray-500 font-semibold mt-1">Low / Out-of-Stock</div>
+            <div className="text-xs text-slate-600 font-bold mt-1">Low / Out-of-Stock</div>
           </div>
           <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center font-bold">
             <AlertTriangle className="w-6 h-6" />
@@ -393,7 +393,7 @@ function ProductsTab() {
       <div className="bg-white rounded-2xl border border-gray-200 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-bold uppercase">
+            <thead className="bg-gray-50 border-b border-gray-200 text-slate-700 font-extrabold uppercase">
               <tr>
                 <th className="p-4">Product</th>
                 <th className="p-4">SKU</th>
@@ -627,7 +627,7 @@ function OrdersTab() {
       <div className="bg-white rounded-2xl border border-gray-200 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-bold uppercase">
+            <thead className="bg-gray-50 border-b border-gray-200 text-slate-700 font-extrabold uppercase">
               <tr>
                 <th className="p-4">Order #</th>
                 <th className="p-4">Customer</th>
@@ -722,7 +722,7 @@ function InventoryTab() {
       <div className="bg-white rounded-2xl border border-gray-200 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-bold uppercase">
+            <thead className="bg-gray-50 border-b border-gray-200 text-slate-700 font-extrabold uppercase">
               <tr>
                 <th className="p-4">SKU</th>
                 <th className="p-4">Motor Model</th>
@@ -801,7 +801,7 @@ function CustomersTab() {
       <div className="bg-white rounded-2xl border border-gray-200 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-bold uppercase">
+            <thead className="bg-gray-50 border-b border-gray-200 text-slate-700 font-extrabold uppercase">
               <tr>
                 <th className="p-4">Customer Name</th>
                 <th className="p-4">Email</th>

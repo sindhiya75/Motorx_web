@@ -29,7 +29,7 @@ export default function CategoryCard({ category }) {
           <div className="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
             <IconComponent className="w-6 h-6" />
           </div>
-          <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full">
+          <span className="text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-full">
             {category.count} Models
           </span>
         </div>
@@ -37,7 +37,7 @@ export default function CategoryCard({ category }) {
         <h3 className="text-lg font-bold text-navy group-hover:text-primary transition-colors mb-2">
           {category.name}
         </h3>
-        <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
+        <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
           {category.description}
         </p>
       </div>

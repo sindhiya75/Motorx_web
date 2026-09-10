@@ -61,7 +61,7 @@ export default function AdminLogin() {
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1">
               Admin Email *
             </label>
             <div className="relative">
@@ -71,14 +71,14 @@ export default function AdminLogin() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@motorx.com"
-                className="w-full pl-10 pr-3 py-3 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:bg-white transition-all"
+                className="w-full pl-10 pr-3 py-3 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:bg-white transition-all text-gray-900 placeholder:text-gray-500"
               />
-              <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
+              <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5 pointer-events-none" />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1">
               Password *
             </label>
             <div className="relative">
@@ -88,9 +88,9 @@ export default function AdminLogin() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-3 py-3 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:bg-white transition-all"
+                className="w-full pl-10 pr-3 py-3 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:bg-white transition-all text-gray-900 placeholder:text-gray-500"
               />
-              <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
+              <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5 pointer-events-none" />
             </div>
           </div>
 
@@ -114,10 +114,10 @@ export default function AdminLogin() {
         </form>
 
         {/* Demo Credentials Footer Notice */}
-        <div className="p-3.5 bg-blue-50/70 border border-blue-100 rounded-xl text-[11px] text-gray-600 space-y-1">
+        <div className="p-3.5 bg-blue-50/70 border border-blue-100 rounded-xl text-xs text-slate-700 space-y-1">
           <div className="font-bold text-navy">Default Demo Credentials:</div>
-          <div>Email: <code className="font-mono bg-white px-1.5 py-0.5 rounded border border-blue-200 text-primary">admin@motorx.com</code></div>
-          <div>Password: <code className="font-mono bg-white px-1.5 py-0.5 rounded border border-blue-200 text-primary">Admin@123</code></div>
+          <div>Email: <code className="font-mono font-bold bg-white px-1.5 py-0.5 rounded border border-blue-200 text-primary">admin@motorx.com</code></div>
+          <div>Password: <code className="font-mono font-bold bg-white px-1.5 py-0.5 rounded border border-blue-200 text-primary">Admin@123</code></div>
         </div>
 
       </div>

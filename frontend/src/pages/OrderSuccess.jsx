@@ -76,7 +76,7 @@ export default function OrderSuccess() {
         </div>
 
         {/* Notice */}
-        <div className="text-[11px] text-gray-400 pt-6 border-t border-gray-100">
+        <div className="text-xs text-slate-600 font-medium pt-6 border-t border-gray-100">
           Your order has been recorded in PostgreSQL. You can view real-time tracking details anytime using your Order Reference Number.
         </div>
 

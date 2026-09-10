@@ -56,9 +56,9 @@ export default function Account() {
             AS
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold">{userProfile.name}</h1>
-            <p className="text-xs text-blue-200">{userProfile.email} • {userProfile.phone}</p>
-            <span className="inline-block text-[10px] bg-blue-900/80 text-blue-300 px-2 py-0.5 rounded-md font-mono mt-1">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white">{userProfile.name}</h1>
+            <p className="text-xs text-blue-100 font-medium">{userProfile.email} • {userProfile.phone}</p>
+            <span className="inline-block text-xs font-mono font-bold bg-blue-900/90 text-blue-200 px-2.5 py-0.5 rounded-md mt-1 border border-blue-700/50">
               GSTIN: {userProfile.gstin}
             </span>
           </div>
@@ -66,7 +66,7 @@ export default function Account() {
 
         <button
           onClick={handleLogout}
-          className="px-4 py-2 bg-navy-deep hover:bg-navy-light text-gray-300 text-xs font-bold rounded-xl transition-colors flex items-center gap-2 border border-navy-light/40"
+          className="px-4 py-2 bg-navy-deep hover:bg-navy-light text-gray-200 text-xs font-bold rounded-xl transition-colors flex items-center gap-2 border border-navy-light/60"
         >
           <LogOut className="w-4 h-4" /> Logout
         </button>
@@ -93,15 +93,15 @@ export default function Account() {
                 onClick={() => setActiveTab(item.id)}
                 className={`w-full text-left px-4 py-3 rounded-xl font-bold text-xs flex items-center justify-between transition-colors ${
                   active
-                    ? 'bg-blue-50 text-primary font-extrabold'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-navy'
+                    ? 'bg-blue-50 text-primary font-extrabold shadow-sm'
+                    : 'text-slate-700 font-bold hover:bg-gray-100 hover:text-navy'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
                   <IconComp className="w-4 h-4" />
                   <span>{item.label}</span>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400 font-bold" />
               </button>
             );
           })}

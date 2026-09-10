@@ -45,7 +45,7 @@ export default function Navbar() {
               <span className="font-extrabold text-xl sm:text-2xl tracking-wider text-navy leading-none">
                 MOTOR<span className="text-primary">X</span>
               </span>
-              <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest leading-tight">
+              <span className="text-[10px] sm:text-xs font-extrabold text-slate-600 uppercase tracking-widest leading-tight">
                 POWER YOUR FLIGHT
               </span>
             </div>
@@ -57,7 +57,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden xl:flex items-center gap-6 text-xs font-bold uppercase tracking-wider text-gray-700">
+          <nav className="hidden xl:flex items-center gap-6 text-xs font-extrabold uppercase tracking-wider text-slate-800">
             {navLinks.map((link) => (
               <NavLink
                 key={link.name}

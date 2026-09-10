@@ -132,7 +132,7 @@ export default function Home() {
                 <span>MOTORX AUTOMOTIVE & HIGH-PERFORMANCE MOTORS</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-white">
                 PRECISION <span className="text-primary">AUTOMOTIVE &</span> <br />
                 BRUSHLESS MOTORS
               </h1>
@@ -163,15 +163,15 @@ export default function Home() {
               <div className="grid grid-cols-3 gap-4 pt-8 border-t border-gray-800 max-w-lg mx-auto lg:mx-0">
                 <div>
                   <div className="text-xl sm:text-2xl font-bold text-white">100%</div>
-                  <div className="text-xs text-gray-400">Dynamically Balanced</div>
+                  <div className="text-xs text-slate-300 font-medium">Dynamically Balanced</div>
                 </div>
                 <div>
                   <div className="text-xl sm:text-2xl font-bold text-white">N52</div>
-                  <div className="text-xs text-gray-400">Neodymium Magnets</div>
+                  <div className="text-xs text-slate-300 font-medium">Neodymium Magnets</div>
                 </div>
                 <div>
                   <div className="text-xl sm:text-2xl font-bold text-white">Pan-India</div>
-                  <div className="text-xs text-gray-400">Express Delivery</div>
+                  <div className="text-xs text-slate-300 font-medium">Express Delivery</div>
                 </div>
               </div>
             </div>
@@ -294,7 +294,7 @@ export default function Home() {
             <span className="px-3.5 py-1.5 rounded-full bg-primary text-white text-[10px] font-extrabold uppercase tracking-widest inline-block">
               SPECIAL ENGINEERING OFFER
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
               Custom OEM Motor Design & Bulk Corporate Orders
             </h2>
             <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
@@ -386,7 +386,7 @@ export default function Home() {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-gray-400 text-[10px] uppercase">Phone Support</div>
+                  <div className="text-slate-500 text-xs font-bold uppercase">Phone Support</div>
                   <div className="text-navy font-bold text-sm">+91 (800) 555-MOTOR</div>
                 </div>
               </div>
@@ -396,7 +396,7 @@ export default function Home() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-gray-400 text-[10px] uppercase">Email Support</div>
+                  <div className="text-slate-500 text-xs font-bold uppercase">Email Support</div>
                   <div className="text-navy font-bold text-sm">support@motorx.com</div>
                 </div>
               </div>
@@ -406,7 +406,7 @@ export default function Home() {
                   <Building className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-gray-400 text-[10px] uppercase">Central Facility</div>
+                  <div className="text-slate-500 text-xs font-bold uppercase">Central Facility</div>
                   <div className="text-navy font-bold">MotorX Innovation Park, Bangalore, India</div>
                 </div>
               </div>
@@ -428,7 +428,7 @@ export default function Home() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-bold text-gray-700 uppercase mb-1">Your Name *</label>
+                    <label className="block text-xs font-bold text-slate-800 uppercase mb-1">Your Name *</label>
                     <input
                       type="text"
                       required
@@ -439,7 +439,7 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-gray-700 uppercase mb-1">Email Address *</label>
+                    <label className="block text-xs font-bold text-slate-800 uppercase mb-1">Email Address *</label>
                     <input
                       type="email"
                       required
@@ -452,7 +452,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 uppercase mb-1">Phone Number</label>
+                  <label className="block text-xs font-bold text-slate-800 uppercase mb-1">Phone Number</label>
                   <input
                     type="tel"
                     value={contactForm.phone}
@@ -463,7 +463,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 uppercase mb-1">Message / Requirements *</label>
+                  <label className="block text-xs font-bold text-slate-800 uppercase mb-1">Message / Requirements *</label>
                   <textarea
                     rows={3}
                     required
@@ -496,11 +496,11 @@ export default function Home() {
               const IconComp = badge.icon;
               return (
                 <div key={idx} className="flex flex-col items-center text-center space-y-2 p-3">
-                  <div className="w-12 h-12 rounded-xl bg-navy-light/40 text-blue-400 flex items-center justify-center border border-navy-light/60">
+                  <div className="w-12 h-12 rounded-xl bg-navy-light/40 text-blue-300 flex items-center justify-center border border-navy-light/60">
                     <IconComp className="w-6 h-6" />
                   </div>
                   <h4 className="font-bold text-xs sm:text-sm text-white">{badge.title}</h4>
-                  <p className="text-[11px] text-gray-400">{badge.desc}</p>
+                  <p className="text-xs text-slate-300 font-medium">{badge.desc}</p>
                 </div>
               );
             })}

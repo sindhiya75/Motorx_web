@@ -144,7 +144,7 @@ export default function CategoryPage() {
             <span>Product Category</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
             {categoryInfo?.name || 'Composite Category'}
           </h1>
 

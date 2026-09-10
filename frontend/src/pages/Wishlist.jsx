@@ -85,7 +85,7 @@ export default function Wishlist() {
                 <button
                   type="button"
                   onClick={() => removeFromWishlist(product.id)}
-                  className="absolute top-2 right-2 p-2 bg-white/90 hover:bg-rose-50 text-gray-400 hover:text-rose-600 rounded-full shadow-sm transition-colors"
+                  className="absolute top-2 right-2 p-2 bg-white/90 hover:bg-rose-50 text-slate-500 hover:text-rose-600 rounded-full shadow-sm transition-colors"
                   title="Remove from wishlist"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -94,7 +94,7 @@ export default function Wishlist() {
 
               {/* Product Info */}
               <div className="space-y-1">
-                <span className="text-[10px] font-mono text-gray-400">{product.sku}</span>
+                <span className="text-xs font-mono text-slate-600 font-bold">{product.sku}</span>
                 <Link
                   to={`/products/${product.slug}`}
                   className="block text-xs font-bold text-gray-900 hover:text-primary line-clamp-2 leading-snug"

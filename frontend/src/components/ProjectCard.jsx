@@ -14,11 +14,11 @@ export default function ProjectCard({ project }) {
           alt={project.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute top-3 left-3 bg-navy-deep/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-navy-light/40">
+        <div className="absolute top-3 left-3 bg-navy-deep/90 backdrop-blur-md text-white text-xs font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full border border-navy-light/40 shadow-sm">
           {project.difficulty}
         </div>
-        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-gray-800 text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
-          <Clock className="w-3 h-3 text-primary" /> {project.estimatedBuildTime}
+        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md text-slate-900 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1 border border-gray-200">
+          <Clock className="w-3.5 h-3.5 text-primary" /> {project.estimatedBuildTime}
         </div>
       </div>
 
@@ -27,7 +27,7 @@ export default function ProjectCard({ project }) {
         <h3 className="text-lg font-bold text-navy group-hover:text-primary transition-colors mb-1.5">
           {project.name}
         </h3>
-        <p className="text-xs text-gray-600 line-clamp-2 mb-4 leading-relaxed">
+        <p className="text-xs text-slate-600 line-clamp-2 mb-4 leading-relaxed font-normal">
           {project.shortDescription}
         </p>
 
@@ -36,7 +36,7 @@ export default function ProjectCard({ project }) {
           <div className="flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
             <Cpu className="w-3.5 h-3.5" /> Required Motors:
           </div>
-          <ul className="text-[11px] font-medium text-gray-700 space-y-0.5 pl-5 list-disc">
+          <ul className="text-xs font-medium text-slate-800 space-y-0.5 pl-5 list-disc">
             {project.requiredMotors.map((m, idx) => (
               <li key={idx}>{m}</li>
             ))}
@@ -45,12 +45,12 @@ export default function ProjectCard({ project }) {
 
         {/* Required Components Section */}
         <div className="mb-5 p-2.5 bg-gray-50 rounded-xl border border-gray-100">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-gray-700 mb-1">
-            <Wrench className="w-3.5 h-3.5 text-gray-500" /> Required Components:
+          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 mb-1">
+            <Wrench className="w-3.5 h-3.5 text-slate-500" /> Required Components:
           </div>
           <div className="flex flex-wrap gap-1">
             {project.requiredComponents.map((c, idx) => (
-              <span key={idx} className="text-[10px] bg-white text-gray-600 px-2 py-0.5 rounded border border-gray-200">
+              <span key={idx} className="text-xs font-semibold bg-white text-slate-700 px-2 py-0.5 rounded border border-gray-200">
                 {c}
               </span>
             ))}
