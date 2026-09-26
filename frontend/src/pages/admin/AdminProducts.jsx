@@ -4,9 +4,14 @@ import { Package, Plus, Search, Edit2, Trash2, CheckCircle2, AlertTriangle, Arro
 import { fetchAdminProducts, createAdminProduct, updateAdminProduct, deleteAdminProduct } from '../../services/adminApi';
 import { formatINR } from '../../utils/formatINR';
 import { useToast } from '../../context/ToastContext';
+import { normalizeProductImageUrl, handleImageError } from '../../utils/imageHelper';
+
+import { fetchCategories, fetchBrands } from '../../services/api';
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [brandsList, setBrandsList] = useState([]);
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
@@ -17,11 +22,17 @@ export default function AdminProducts() {
 
   const [formData, setFormData] = useState({
     name: '',
+    categoryId: '',
+    isManualCategory: false,
+    newCategoryName: '',
+    brandId: '',
+    isManualBrand: false,
+    newBrandName: '',
     price: '',
     salePrice: '',
     status: 'IN_STOCK',
     stock: 10,
-    image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80',
+    image: '/products/cured_products/Carbon_Fiber_Sheet.jpeg',
     featured: false
   });
 
@@ -38,6 +49,33 @@ export default function AdminProducts() {
     }
   };
 
+  const refreshMetadata = async () => {
+    try {
+      const [cats, brs] = await Promise.all([fetchCategories(), fetchBrands()]);
+      setCategoriesList(cats || []);
+      setBrandsList(brs || []);
+    } catch (err) {
+      console.warn('Failed to load categories/brands:', err.message);
+    }
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadMeta() {
+      try {
+        const [cats, brs] = await Promise.all([fetchCategories(), fetchBrands()]);
+        if (isMounted) {
+          setCategoriesList(cats || []);
+          setBrandsList(brs || []);
+        }
+      } catch (err) {
+        console.warn('Failed to load categories/brands:', err.message);
+      }
+    }
+    loadMeta();
+    return () => { isMounted = false; };
+  }, []);
+
   useEffect(() => {
     loadProducts();
   }, [pagination.page, search]);
@@ -45,15 +83,30 @@ export default function AdminProducts() {
   const handleCreateOrUpdate = async (e) => {
     e.preventDefault();
     try {
+      const payload = {
+        name: formData.name,
+        price: formData.price,
+        salePrice: formData.salePrice,
+        status: formData.status,
+        stock: formData.stock,
+        image: formData.image,
+        featured: formData.featured,
+        categoryId: formData.isManualCategory ? null : formData.categoryId,
+        newCategoryName: formData.isManualCategory ? formData.newCategoryName.trim() : undefined,
+        brandId: formData.isManualBrand ? null : formData.brandId,
+        newBrandName: formData.isManualBrand ? formData.newBrandName.trim() : undefined
+      };
+
       if (editingProduct) {
-        await updateAdminProduct(editingProduct.id, formData);
+        await updateAdminProduct(editingProduct.id, payload);
         addToast(`Updated product "${formData.name}"`, 'success');
       } else {
-        await createAdminProduct(formData);
+        await createAdminProduct(payload);
         addToast(`Created product "${formData.name}"`, 'success');
       }
       setIsAddModalOpen(false);
       setEditingProduct(null);
+      await refreshMetadata();
       loadProducts();
     } catch (err) {
       addToast(err.message || 'Action failed', 'error');
@@ -76,11 +129,17 @@ export default function AdminProducts() {
     setEditingProduct(p);
     setFormData({
       name: p.name,
+      categoryId: p.categoryId || '',
+      isManualCategory: false,
+      newCategoryName: '',
+      brandId: p.brandId || '',
+      isManualBrand: false,
+      newBrandName: '',
       price: p.price,
       salePrice: p.salePrice || '',
       status: p.status,
       stock: p.stock,
-      image: p.image || 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80',
+      image: p.image || '/products/cured_products/Carbon_Fiber_Sheet.jpeg',
       featured: p.featured || false
     });
     setIsAddModalOpen(true);
@@ -106,8 +165,19 @@ export default function AdminProducts() {
           onClick={() => {
             setEditingProduct(null);
             setFormData({
-              name: '', price: '', salePrice: '', status: 'IN_STOCK', stock: 10,
-              image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80', featured: false
+              name: '',
+              categoryId: categoriesList[0]?.id || '',
+              isManualCategory: false,
+              newCategoryName: '',
+              brandId: brandsList[0]?.id || '',
+              isManualBrand: false,
+              newBrandName: '',
+              price: '',
+              salePrice: '',
+              status: 'IN_STOCK',
+              stock: 10,
+              image: '/products/cured_products/Carbon_Fiber_Sheet.jpeg',
+              featured: false
             });
             setIsAddModalOpen(true);
           }}
@@ -162,7 +232,12 @@ export default function AdminProducts() {
                 products.map((p) => (
                   <tr key={p.id} className="hover:bg-blue-50/30 transition-colors">
                     <td className="p-4 flex items-center gap-3">
-                      <img src={p.image} alt={p.name} className="w-10 h-10 object-contain rounded border p-0.5 bg-gray-50 shrink-0" />
+                      <img
+                        src={normalizeProductImageUrl(p.image)}
+                        onError={handleImageError}
+                        alt={p.name}
+                        className="w-10 h-10 object-contain rounded border p-0.5 bg-gray-50 shrink-0"
+                      />
                       <div>
                         <div className="font-bold text-navy text-xs">{p.name}</div>
                         <div className="text-[11px] text-gray-400">{p.category} • {p.brand}</div>
@@ -207,94 +282,218 @@ export default function AdminProducts() {
 
       {/* Add/Edit Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-deep/60 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-              <h3 className="font-bold text-navy text-base">
-                {editingProduct ? `Edit Motor #${editingProduct.id}` : 'Add New Motor Model'}
-              </h3>
-              <button onClick={() => setIsAddModalOpen(false)} className="p-1 text-gray-400 hover:text-gray-600">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-deep/60 backdrop-blur-sm overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-xl w-full shadow-2xl flex flex-col max-h-[92vh] overflow-hidden">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-5 sm:px-6 py-3.5 border-b border-gray-100 bg-white shrink-0">
+              <div>
+                <h3 className="font-bold text-navy text-base">
+                  {editingProduct ? `Edit Motor #${editingProduct.id}` : 'Add New Motor Model'}
+                </h3>
+                <p className="text-[11px] text-gray-500">Configure motor specifications, pricing and inventory</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsAddModalOpen(false)}
+                className="p-1.5 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-colors"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateOrUpdate} className="space-y-3 text-xs">
-              <div>
-                <label className="block font-bold text-gray-700 mb-1">Product Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full p-2.5 border rounded-xl"
-                  placeholder="e.g. AeroDrive C145 1404 Motor"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
+            {/* Modal Form */}
+            <form onSubmit={handleCreateOrUpdate} className="flex flex-col flex-1 overflow-hidden text-xs">
+              <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-3.5">
                 <div>
-                  <label className="block font-bold text-gray-700 mb-1">Regular Price (₹) *</label>
+                  <label className="block font-bold text-gray-700 mb-1">Product Name *</label>
                   <input
-                    type="number"
+                    type="text"
                     required
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full p-2.5 border border-gray-300 rounded-xl text-xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                    placeholder="e.g. AeroCore Structural PVC Foam Core"
                   />
                 </div>
+
+                {/* Category & Brand Side-by-Side in 2-column Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Category Selection / Manual Entry */}
+                  <div className="p-2.5 bg-gray-50/90 rounded-xl border border-gray-200 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className="font-bold text-navy text-[11px]">Category *</label>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({
+                          ...formData,
+                          isManualCategory: !formData.isManualCategory,
+                          newCategoryName: ''
+                        })}
+                        className="text-[10px] font-bold text-primary hover:underline"
+                      >
+                        {formData.isManualCategory ? '← Select Existing' : '+ New Category'}
+                      </button>
+                    </div>
+
+                    {formData.isManualCategory ? (
+                      <input
+                        type="text"
+                        required
+                        value={formData.newCategoryName}
+                        onChange={e => setFormData({ ...formData, newCategoryName: e.target.value })}
+                        placeholder="New category name"
+                        className="w-full p-2 border border-primary/50 bg-white rounded-lg text-navy font-bold text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    ) : (
+                      <select
+                        required
+                        value={formData.categoryId}
+                        onChange={e => {
+                          if (e.target.value === '__NEW__') {
+                            setFormData({ ...formData, isManualCategory: true, newCategoryName: '' });
+                          } else {
+                            setFormData({ ...formData, categoryId: e.target.value });
+                          }
+                        }}
+                        className="w-full p-2 border border-gray-300 rounded-lg bg-white font-medium text-gray-800 text-xs"
+                      >
+                        <option value="">Select Category</option>
+                        {categoriesList.map(c => (
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                        <option value="__NEW__">+ Enter New Category...</option>
+                      </select>
+                    )}
+                  </div>
+
+                  {/* Brand Selection / Manual Entry */}
+                  <div className="p-2.5 bg-gray-50/90 rounded-xl border border-gray-200 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className="font-bold text-navy text-[11px]">Brand / Manufacturer</label>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({
+                          ...formData,
+                          isManualBrand: !formData.isManualBrand,
+                          newBrandName: ''
+                        })}
+                        className="text-[10px] font-bold text-primary hover:underline"
+                      >
+                        {formData.isManualBrand ? '← Select Existing' : '+ New Brand'}
+                      </button>
+                    </div>
+
+                    {formData.isManualBrand ? (
+                      <input
+                        type="text"
+                        required
+                        value={formData.newBrandName}
+                        onChange={e => setFormData({ ...formData, newBrandName: e.target.value })}
+                        placeholder="New brand name"
+                        className="w-full p-2 border border-primary/50 bg-white rounded-lg text-navy font-bold text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    ) : (
+                      <select
+                        value={formData.brandId}
+                        onChange={e => {
+                          if (e.target.value === '__NEW__') {
+                            setFormData({ ...formData, isManualBrand: true, newBrandName: '' });
+                          } else {
+                            setFormData({ ...formData, brandId: e.target.value });
+                          }
+                        }}
+                        className="w-full p-2 border border-gray-300 rounded-lg bg-white font-medium text-gray-800 text-xs"
+                      >
+                        <option value="">Select Brand</option>
+                        {brandsList.map(b => (
+                          <option key={b.id} value={b.id}>{b.name}</option>
+                        ))}
+                        <option value="__NEW__">+ Enter New Brand...</option>
+                      </select>
+                    )}
+                  </div>
+                </div>
+
+                {/* Pricing */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-1">Regular Price (₹) *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      className="w-full p-2.5 border border-gray-300 rounded-xl text-xs focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-1">Sale Price (₹)</label>
+                    <input
+                      type="number"
+                      value={formData.salePrice}
+                      onChange={(e) => setFormData({ ...formData, salePrice: e.target.value })}
+                      className="w-full p-2.5 border border-gray-300 rounded-xl text-xs focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                </div>
+
+                {/* Stock & Status */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-1">Stock Quantity *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.stock}
+                      onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                      className="w-full p-2.5 border border-gray-300 rounded-xl text-xs focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-1">Status</label>
+                    <select
+                      value={formData.status}
+                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                      className="w-full p-2.5 border border-gray-300 rounded-xl bg-white text-xs focus:outline-none focus:border-primary"
+                    >
+                      <option value="IN_STOCK">IN_STOCK</option>
+                      <option value="LOW_STOCK">LOW_STOCK</option>
+                      <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
+                      <option value="PRICE_ON_REQUEST">PRICE_ON_REQUEST</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Image URL */}
                 <div>
-                  <label className="block font-bold text-gray-700 mb-1">Sale Price (₹)</label>
+                  <label className="block font-bold text-gray-700 mb-1">Image URL / Path</label>
                   <input
-                    type="number"
-                    value={formData.salePrice}
-                    onChange={(e) => setFormData({ ...formData, salePrice: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl"
+                    type="text"
+                    value={formData.image}
+                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    placeholder="/products/cured_products/Carbon_Fiber_Sheet.jpeg"
+                    className="w-full p-2.5 border border-gray-300 rounded-xl font-mono text-[11px] focus:outline-none focus:border-primary"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold text-gray-700 mb-1">Stock Quantity *</label>
-                  <input
-                    type="number"
-                    required
-                    value={formData.stock}
-                    onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl"
-                  />
-                </div>
-                <div>
-                  <label className="block font-bold text-gray-700 mb-1">Status</label>
-                  <select
-                    value={formData.status}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full p-2.5 border rounded-xl bg-white"
-                  >
-                    <option value="IN_STOCK">IN_STOCK</option>
-                    <option value="LOW_STOCK">LOW_STOCK</option>
-                    <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
-                    <option value="PRICE_ON_REQUEST">PRICE_ON_REQUEST</option>
-                  </select>
-                </div>
+              {/* Modal Sticky Footer */}
+              <div className="flex items-center justify-end gap-2.5 px-5 sm:px-6 py-3 border-t border-gray-100 bg-gray-50/70 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="px-4 py-2 border border-gray-300 rounded-xl font-bold text-gray-600 hover:bg-white transition-colors text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl shadow-md transition-colors text-xs"
+                >
+                  {editingProduct ? 'Save Changes' : 'Create Motor Model'}
+                </button>
               </div>
-
-              <div>
-                <label className="block font-bold text-gray-700 mb-1">Image URL</label>
-                <input
-                  type="url"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full p-2.5 border rounded-xl font-mono text-[11px]"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-3 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl shadow-md transition-colors mt-2"
-              >
-                {editingProduct ? 'SAVE CHANGES' : 'CREATE MOTOR'}
-              </button>
             </form>
           </div>
         </div>

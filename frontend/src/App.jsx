@@ -44,12 +44,12 @@ function AppContent() {
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
-    <div className="flex flex-col min-h-screen bg-white font-sans text-gray-900 selection:bg-blue-100 selection:text-primary">
+    <div className={`flex flex-col ${isAdminRoute ? 'h-screen overflow-hidden' : 'min-h-screen'} bg-white font-sans text-gray-900 selection:bg-blue-100 selection:text-primary`}>
       {!isAdminRoute && <Navbar />}
       {!isAdminRoute && <CartDrawer />}
       <Toast />
 
-      <main className="flex-1">
+      <main className={`flex-1 ${isAdminRoute ? 'min-h-0 overflow-hidden' : ''}`}>
         <Routes>
           {/* Customer Routes */}
           <Route path="/" element={<Home />} />

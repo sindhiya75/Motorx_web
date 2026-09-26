@@ -6,6 +6,7 @@ import { formatINR } from '../utils/formatINR';
 import { calculateCartSummary } from '../utils/calculations';
 import { createPaymentOrder, verifyPayment } from '../services/api';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 // Dynamically load Razorpay Checkout JS SDK
 const loadRazorpayScript = () => {
@@ -28,18 +29,18 @@ export default function Checkout() {
 
   // Form states
   const [customer, setCustomer] = useState({
-    fullName: 'Ananya Sharma',
-    email: 'ananya.sharma@example.com',
-    mobile: '9876543210'
+    fullName: '',
+    email: '',
+    mobile: ''
   });
 
   const [address, setAddress] = useState({
-    flat: 'Flat 402, Aero Heights',
-    street: 'Koramangala 8th Block',
-    area: 'Near Sony World Signal',
-    city: 'Bengaluru',
-    state: 'Karnataka',
-    pincode: '560095',
+    flat: '',
+    street: '',
+    area: '',
+    city: '',
+    state: '',
+    pincode: '',
     country: 'India'
   });
 
@@ -91,7 +92,7 @@ export default function Checkout() {
           key: data.keyId,
           amount: data.amount,
           currency: data.currency || 'INR',
-          name: 'MOTORX Drone Motors',
+          name: 'MOTORX Composites',
           description: `Order #${data.orderNumber}`,
           order_id: data.razorpayOrderId,
           prefill: {
@@ -100,7 +101,7 @@ export default function Checkout() {
             contact: customer.mobile
           },
           theme: {
-            color: '#2563eb'
+            color: '#0756B8'
           },
           handler: async function (razorpayResponse) {
             try {
@@ -126,19 +127,29 @@ export default function Checkout() {
         };
 
         const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', function (resp) {
+          const reason = resp.error?.description || 'Payment authorization failed';
+          setErrorMsg(`Payment Failed: ${reason}`);
+          setSubmitting(false);
+        });
         rzp.open();
       } else {
-        // Fallback for test environments without Razorpay popup window
-        const mockSignature = `sig_test_${Date.now()}`;
-        const mockPaymentId = `pay_test_${Date.now()}`;
-        const verifiedData = await verifyPayment({
-          orderNumber: data.orderNumber,
-          razorpay_order_id: data.razorpayOrderId,
-          razorpay_payment_id: mockPaymentId,
-          razorpay_signature: mockSignature
-        });
-        clearCart();
-        navigate('/order-success', { state: { order: verifiedData } });
+        // Fallback for automated test / headless environments
+        if (data.keyId === 'rzp_test_motorx_demo') {
+          const mockSignature = `sig_test_${Date.now()}`;
+          const mockPaymentId = `pay_test_${Date.now()}`;
+          const verifiedData = await verifyPayment({
+            orderNumber: data.orderNumber,
+            razorpay_order_id: data.razorpayOrderId,
+            razorpay_payment_id: mockPaymentId,
+            razorpay_signature: mockSignature
+          });
+          clearCart();
+          navigate('/order-success', { state: { order: verifiedData } });
+        } else {
+          setErrorMsg('Razorpay Checkout SDK could not be loaded. Please check your internet connection.');
+          setSubmitting(false);
+        }
       }
 
     } catch (err) {
@@ -207,9 +218,10 @@ export default function Checkout() {
                 <input
                   type="text"
                   required
+                  placeholder="Enter your full name"
                   value={customer.fullName}
                   onChange={(e) => setCustomer({ ...customer, fullName: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
 
@@ -218,9 +230,10 @@ export default function Checkout() {
                 <input
                   type="email"
                   required
+                  placeholder="name@example.com"
                   value={customer.email}
                   onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
 
@@ -229,9 +242,10 @@ export default function Checkout() {
                 <input
                   type="tel"
                   required
+                  placeholder="10-digit mobile number"
                   value={customer.mobile}
                   onChange={(e) => setCustomer({ ...customer, mobile: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
             </div>
@@ -250,9 +264,10 @@ export default function Checkout() {
                 <input
                   type="text"
                   required
+                  placeholder="Flat / House No. / Building Name"
                   value={address.flat}
                   onChange={(e) => setAddress({ ...address, flat: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
 
@@ -261,9 +276,10 @@ export default function Checkout() {
                 <input
                   type="text"
                   required
+                  placeholder="Street / Colony / Main Road"
                   value={address.street}
                   onChange={(e) => setAddress({ ...address, street: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
 
@@ -271,9 +287,10 @@ export default function Checkout() {
                 <label className="block text-xs font-bold text-gray-700 mb-1">Locality / Landmark</label>
                 <input
                   type="text"
+                  placeholder="Nearby landmark (optional)"
                   value={address.area}
                   onChange={(e) => setAddress({ ...address, area: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
 
@@ -282,9 +299,10 @@ export default function Checkout() {
                 <input
                   type="text"
                   required
+                  placeholder="City / Town"
                   value={address.city}
                   onChange={(e) => setAddress({ ...address, city: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
 
@@ -293,9 +311,10 @@ export default function Checkout() {
                 <input
                   type="text"
                   required
+                  placeholder="State"
                   value={address.state}
                   onChange={(e) => setAddress({ ...address, state: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
 
@@ -304,9 +323,10 @@ export default function Checkout() {
                 <input
                   type="text"
                   required
+                  placeholder="6-digit PIN code"
                   value={address.pincode}
                   onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
-                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 text-xs font-medium bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary placeholder:text-gray-400"
                 />
               </div>
 
@@ -439,7 +459,12 @@ export default function Checkout() {
             <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
               {cartItems.map((item) => (
                 <div key={item.id} className="flex items-center gap-3 text-xs">
-                  <img src={item.image} alt={item.name} className="w-12 h-12 object-contain bg-gray-50 rounded border p-1 shrink-0" />
+                  <img
+                    src={normalizeProductImageUrl(item.image)}
+                    onError={handleImageError}
+                    alt={item.name}
+                    className="w-12 h-12 object-contain bg-gray-50 rounded border p-1 shrink-0"
+                  />
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-gray-900 truncate">{item.name}</div>
                     <div className="text-slate-500 font-medium">Qty: {item.quantity} × {formatINR(item.salePrice || item.price)}</div>

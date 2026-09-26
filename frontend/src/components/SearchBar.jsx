@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, X, ArrowRight, Zap } from 'lucide-react';
 import { fetchProducts } from '../services/api';
 import { formatINR } from '../utils/formatINR';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 export default function SearchBar({ placeholder = "Search 2306, 4500KV, brushless, FPV, SKU...", onClose }) {
   const [query, setQuery] = useState('');
@@ -108,7 +109,8 @@ export default function SearchBar({ placeholder = "Search 2306, 4500KV, brushles
                   className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-blue-50/60 text-left transition-colors border-b border-gray-50 last:border-none"
                 >
                   <img
-                    src={item.image}
+                    src={normalizeProductImageUrl(item.image)}
+                    onError={handleImageError}
                     alt={item.name}
                     className="w-10 h-10 object-contain bg-gray-50 rounded p-1 border border-gray-100 shrink-0"
                   />

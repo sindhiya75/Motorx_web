@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 export default function ProductGallery({ images = [], name = "Product" }) {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -16,7 +17,8 @@ export default function ProductGallery({ images = [], name = "Product" }) {
       {/* Main Image Container */}
       <div className="relative w-full aspect-square bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden flex items-center justify-center p-6 group">
         <img
-          src={images[selectedImage] || images[0]}
+          src={normalizeProductImageUrl(images[selectedImage] || images[0])}
+          onError={handleImageError}
           alt={`${name} preview ${selectedImage + 1}`}
           className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500 cursor-zoom-in"
         />
@@ -36,7 +38,12 @@ export default function ProductGallery({ images = [], name = "Product" }) {
                   : 'border-gray-200 hover:border-gray-300 opacity-70 hover:opacity-100'
               }`}
             >
-              <img src={img} alt={`${name} thumb ${idx}`} className="w-full h-full object-contain" />
+              <img
+                src={normalizeProductImageUrl(img)}
+                onError={handleImageError}
+                alt={`${name} thumb ${idx}`}
+                className="w-full h-full object-contain"
+              />
             </button>
           ))}
         </div>

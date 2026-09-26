@@ -4,6 +4,7 @@ import { X, ShoppingBag, Trash2, ArrowRight, Truck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatINR } from '../utils/formatINR';
 import { calculateCartSummary, FREE_SHIPPING_THRESHOLD } from '../utils/calculations';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 import QuantitySelector from './QuantitySelector';
 
 export default function CartDrawer() {
@@ -99,7 +100,8 @@ export default function CartDrawer() {
                     className="flex gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200/80 hover:border-gray-300 transition-all"
                   >
                     <img
-                      src={item.image}
+                      src={normalizeProductImageUrl(item.image)}
+                      onError={handleImageError}
                       alt={item.name}
                       className="w-16 h-16 object-contain bg-white rounded-lg p-1 border border-gray-200 shrink-0"
                     />

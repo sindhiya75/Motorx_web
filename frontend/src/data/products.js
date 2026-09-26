@@ -18,11 +18,9 @@ export const products = [
     reviewCount: 24,
     stock: 45,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80",
+    image: "/products/pultruded_products/Carbon_Fiber_Rod.jpeg",
     images: [
-      "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80"
+      "/products/pultruded_products/Carbon_Fiber_Rod.jpeg"
     ],
     description: "The AeroDrive C145 1404 4500KV is engineered for ultralight 3-inch toothpick and micro FPV builds. Built with Japanese NMB bearings and N52H curved magnets for maximum throttle efficiency.",
     specifications: {
@@ -63,10 +61,9 @@ export const products = [
     reviewCount: 52,
     stock: 18,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600&q=80",
+    image: "/products/cured_products/Carbon_Fiber_Sheet.jpeg",
     images: [
-      "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80"
+      "/products/cured_products/Carbon_Fiber_Sheet.jpeg"
     ],
     description: "Workhorse 2306 motor featuring titanium alloy hollow shaft, anti-slip bell design, and temperature-resistant copper windings up to 220°C.",
     specifications: {
@@ -107,9 +104,9 @@ export const products = [
     reviewCount: 19,
     stock: 8,
     status: "LOW_STOCK",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80",
+    image: "/products/tubes/Roll_Wrapped_Carbon_Fiber_Kevlar_Hybrid_Tube.jpeg",
     images: [
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"
+      "/products/tubes/Roll_Wrapped_Carbon_Fiber_Kevlar_Hybrid_Tube.jpeg"
     ],
     description: "Designed for cinematic 3-inch Cinewhoop builds requiring smooth power delivery and minimal propwash vibration.",
     specifications: {
@@ -150,9 +147,9 @@ export const products = [
     reviewCount: 38,
     stock: 22,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1506947411487-a56738267384?auto=format&fit=crop&w=600&q=80",
+    image: "/products/tubes/Round_Shaped_Roll_Wrapped_Carbon_Fiber_Tube.jpeg",
     images: [
-      "https://images.unsplash.com/photo-1506947411487-a56738267384?auto=format&fit=crop&w=800&q=80"
+      "/products/tubes/Round_Shaped_Roll_Wrapped_Carbon_Fiber_Tube.jpeg"
     ],
     description: "High torque 2812 motor for 7-inch to 9-inch long-range mountain surfing drones and heavy payload platforms.",
     specifications: {
@@ -193,9 +190,9 @@ export const products = [
     reviewCount: 14,
     stock: 12,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
+    image: "/products/core_materials/Aluminum_Honeycomb_Core.jpeg",
     images: [
-      "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80"
+      "/products/core_materials/Aluminum_Honeycomb_Core.jpeg"
     ],
     description: "Matched pair of heavy-duty 4006 380KV motors designed specifically for agricultural spraying and long endurance commercial UAV missions.",
     specifications: {
@@ -236,8 +233,10 @@ export const products = [
     reviewCount: 15,
     stock: 16,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/pultruded_products/Rectangle_Shaped_Pultruded_Carbon_Fiber_Tube.jpeg",
+    images: [
+      "/products/pultruded_products/Rectangle_Shaped_Pultruded_Carbon_Fiber_Tube.jpeg"
+    ],
     description: "Extended steel shaft brushless motor tailored for fixed-wing RC aircraft, VTOL drones, and customized robotics applications.",
     specifications: {
       "Motor Type": "Fixed-Wing Long Shaft Outrunner",
@@ -277,8 +276,10 @@ export const products = [
     reviewCount: 31,
     stock: 25,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/cured_products/Carbon_Fiber_Angles.jpeg",
+    images: [
+      "/products/cured_products/Carbon_Fiber_Angles.jpeg"
+    ],
     description: "Ultralight motor optimized for 4-inch ultralight quadcopters and 3.5-inch 6S Cinewhoops delivering instant throttle response.",
     specifications: {
       "Motor Type": "Brushless Outrunner",
@@ -318,8 +319,10 @@ export const products = [
     reviewCount: 22,
     stock: 19,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/cured_products/UD_Carbon_Fiber_Strips_for_High_End_Application.jpeg",
+    images: [
+      "/products/cured_products/UD_Carbon_Fiber_Strips_for_High_End_Application.jpeg"
+    ],
     description: "Lower KV variant of the GR2004 motor series built for high-efficiency 4S/6S cruising with maximum flight time.",
     specifications: {
       "Motor Type": "Brushless Outrunner",
@@ -359,8 +362,10 @@ export const products = [
     reviewCount: 41,
     stock: 50,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/moulds_patterns/Epoxy_Tooling_Board.jpeg",
+    images: [
+      "/products/moulds_patterns/Epoxy_Tooling_Board.jpeg"
+    ],
     description: "Tiny whoop micro brushless motor with insane RPM output for 65mm indoor FPV micro racing drones.",
     specifications: {
       "Motor Type": "Micro Brushless Outrunner",
@@ -400,8 +405,10 @@ export const products = [
     reviewCount: 28,
     stock: 14,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/moulds_patterns/PU_Tooling_Board.jpeg",
+    images: [
+      "/products/moulds_patterns/PU_Tooling_Board.jpeg"
+    ],
     description: "Stator-optimized 2107.5 motor delivering punchy top-end speed and extreme agility on 5-inch track racing setups.",
     specifications: {
       "Motor Type": "Brushless Outrunner",
@@ -441,8 +448,10 @@ export const products = [
     reviewCount: 33,
     stock: 20,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1506947411487-a56738267384?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1506947411487-a56738267384?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/core_materials/PVC_Foam_Core.jpeg",
+    images: [
+      "/products/core_materials/PVC_Foam_Core.jpeg"
+    ],
     description: "Premium 2806.5 motor designed for smooth 6S 7-inch quadcopters, offering exceptional thermal management and flight efficiency.",
     specifications: {
       "Motor Type": "Brushless Outrunner",
@@ -482,8 +491,10 @@ export const products = [
     reviewCount: 17,
     stock: 11,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/core_materials/PMI_Foam_Cores.jpeg",
+    images: [
+      "/products/core_materials/PMI_Foam_Cores.jpeg"
+    ],
     description: "Versatile 3.5-inch to 4-inch drone motor for high speed freestyle acrobatic maneuvers with ultra-durable curved N52 magnets.",
     specifications: {
       "Motor Type": "Brushless Outrunner",
@@ -523,8 +534,10 @@ export const products = [
     reviewCount: 21,
     stock: 3,
     status: "LOW_STOCK",
-    image: "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/core_materials/PET_Foam_Core.jpeg",
+    images: [
+      "/products/core_materials/PET_Foam_Core.jpeg"
+    ],
     description: "Compact 1804 stator motor engineered for 3-inch high-performance freestyle quadcopters demanding extreme throttle responsiveness.",
     specifications: {
       "Motor Type": "Brushless Outrunner",
@@ -564,8 +577,10 @@ export const products = [
     reviewCount: 16,
     stock: 29,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/core_materials/Nomex_Honeycomb_Core.jpeg",
+    images: [
+      "/products/core_materials/Nomex_Honeycomb_Core.jpeg"
+    ],
     description: "High KV micro motor engineered for 2-inch to 2.5-inch micro drones with unmatched power-to-weight ratio.",
     specifications: {
       "Motor Type": "Micro Brushless Outrunner",
@@ -605,8 +620,10 @@ export const products = [
     reviewCount: 27,
     stock: 15,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/core_materials/Sandwich_Panels.jpeg",
+    images: [
+      "/products/core_materials/Sandwich_Panels.jpeg"
+    ],
     description: "Heavy-duty 3520 motor with hardened long steel shaft, designed for heavy lifting hexacopters and heavy ground rovers.",
     specifications: {
       "Motor Type": "Heavy Lift Outrunner",
@@ -646,8 +663,10 @@ export const products = [
     reviewCount: 9,
     stock: 5,
     status: "PRICE_ON_REQUEST",
-    image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/cured_products/G10_Laminates.jpeg",
+    images: [
+      "/products/cured_products/G10_Laminates.jpeg"
+    ],
     description: "Integrated power system demo motor including ESC and folding carbon propeller hub for industrial agricultural octocopters carrying 10L-16L payloads.",
     specifications: {
       "Motor Type": "Integrated Industrial Power System",
@@ -687,8 +706,10 @@ export const products = [
     reviewCount: 11,
     stock: 7,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/cured_products/Sandwich_Panels.jpeg",
+    images: [
+      "/products/cured_products/Sandwich_Panels.jpeg"
+    ],
     description: "Ultra low KV giant brushless motor engineered for 30-inch carbon props on commercial heavy-lift platforms.",
     specifications: {
       "Motor Type": "Giant Brushless Outrunner",
@@ -728,8 +749,10 @@ export const products = [
     reviewCount: 15,
     stock: 9,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/vaccum_bagging/Vacuum_Bagging_Film.jpeg",
+    images: [
+      "/products/vaccum_bagging/Vacuum_Bagging_Film.jpeg"
+    ],
     description: "High efficiency 180KV motor ideal for 24-inch propeller setups on industrial inspection drones.",
     specifications: {
       "Motor Type": "Industrial Heavy-Duty Outrunner",
@@ -769,8 +792,10 @@ export const products = [
     reviewCount: 36,
     stock: 22,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/vaccum_bagging/Heat_Shrink_Tape.jpeg",
+    images: [
+      "/products/vaccum_bagging/Heat_Shrink_Tape.jpeg"
+    ],
     description: "6S optimized 2207 racing motor designed for maximum torque during high-G cornering on FPV tracks.",
     specifications: {
       "Motor Type": "Brushless Outrunner",
@@ -810,8 +835,10 @@ export const products = [
     reviewCount: 42,
     stock: 18,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/vaccum_bagging/Peel_Ply.jpeg",
+    images: [
+      "/products/vaccum_bagging/Peel_Ply.jpeg"
+    ],
     description: "High-KV 6S racing motor for pilots who want uncompromising top speed down long straightaways.",
     specifications: {
       "Motor Type": "Brushless Outrunner",
@@ -851,8 +878,10 @@ export const products = [
     reviewCount: 14,
     stock: 10,
     status: "IN_STOCK",
-    image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/vaccum_bagging/Breather_Cloth.jpeg",
+    images: [
+      "/products/vaccum_bagging/Breather_Cloth.jpeg"
+    ],
     description: "Direct-drive high pole count gimbal motor with built-in AS5048A magnetic encoder for smooth camera stabilization.",
     specifications: {
       "Motor Type": "Direct-Drive Gimbal Motor with Encoder",
@@ -892,8 +921,10 @@ export const products = [
     reviewCount: 8,
     stock: 0,
     status: "OUT_OF_STOCK",
-    image: "https://images.unsplash.com/photo-1506947411487-a56738267384?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1506947411487-a56738267384?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/vaccum_bagging/Vacuum_Sealing_Tape.jpeg",
+    images: [
+      "/products/vaccum_bagging/Vacuum_Sealing_Tape.jpeg"
+    ],
     description: "High-torque industrial UAV motor crafted for high altitude endurance operations in harsh weather environments.",
     specifications: {
       "Motor Type": "Industrial Heavy Duty Outrunner",
@@ -933,8 +964,10 @@ export const products = [
     reviewCount: 5,
     stock: 0,
     status: "COMING_SOON",
-    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
-    images: ["https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80"],
+    image: "/products/Epoxy_Resin/Vacuum_Infusion_Epoxy.jpeg",
+    images: [
+      "/products/Epoxy_Resin/Vacuum_Infusion_Epoxy.jpeg"
+    ],
     description: "Planetary geared brushless motor delivering high torque output at low speeds for autonomous ground rovers and robotic actuators.",
     specifications: {
       "Motor Type": "Planetary Geared Brushless Motor",

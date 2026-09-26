@@ -25,6 +25,7 @@ import {
 import { fetchProducts, fetchCategories } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import CategoryCard from '../components/CategoryCard';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -183,8 +184,9 @@ export default function Home() {
                 <div className="bg-white/95 backdrop-blur-md p-6 rounded-3xl border border-gray-200 text-gray-900 shadow-2xl space-y-4">
                   <div className="relative aspect-square w-full rounded-2xl bg-gray-50 overflow-hidden flex items-center justify-center p-6 border border-gray-100">
                     <img
-                      src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
-                      alt="MOTORX High Performance Brushless Motor"
+                      src={normalizeProductImageUrl('/products/cured_products/Carbon_Fiber_Sheet.jpeg')}
+                      onError={handleImageError}
+                      alt="MOTORX High Performance Composites"
                       className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4 bg-navy text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -257,14 +259,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. WHY MOTORX SECTION */}
-      <section className="bg-surface-hero py-16 border-y border-blue-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-extrabold text-primary uppercase tracking-wider">AUTOMOTIVE EXCELLENCE</span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-navy mt-1">Why Choose MotorX?</h2>
-            <p className="text-xs sm:text-sm text-gray-600 mt-2">
-              Built with aerospace-grade standards, continuous thermal endurance, and strict quality inspection.
+      {/* 4. WHY MOTORX SECTION - AEROSPACE GRADE GLASSMORPHISM */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-navy-deep via-navy to-navy-light text-white py-20 sm:py-24 border-y border-gray-800">
+        {/* Glow ambient background effects */}
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl pointer-events-none -z-0" />
+        <div className="absolute bottom-0 right-1/4 w-[450px] h-[450px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none -z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:28px_28px] opacity-5 pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/20 border border-primary/40 text-blue-300 text-xs font-extrabold uppercase tracking-wider shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>ENGINEERING & COMPOSITES EXCELLENCE</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+              Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-primary-light">MOTORX</span>?
+            </h2>
+            <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Engineered with aerospace-grade standards, continuous thermal endurance, and strict quality certification.
             </p>
           </div>
 
@@ -272,12 +284,37 @@ export default function Home() {
             {whyMotorXHighlights.map((item, idx) => {
               const IconComp = item.icon;
               return (
-                <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-200 shadow-card hover:shadow-lg transition-all duration-300 space-y-3">
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 text-primary flex items-center justify-center font-bold">
-                    <IconComp className="w-6 h-6" />
+                <div
+                  key={idx}
+                  className="group relative p-7 rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10 hover:border-primary/60 transition-all duration-500 hover:-translate-y-2 shadow-xl hover:shadow-2xl hover:shadow-primary/25 overflow-hidden flex flex-col justify-between"
+                >
+                  {/* Subtle top-right radial glow on hover */}
+                  <div className="absolute -right-12 -top-12 w-36 h-36 bg-gradient-to-br from-primary/30 to-sky-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+
+                  {/* Monospace watermark number */}
+                  <span className="absolute top-5 right-6 text-3xl font-mono font-black text-white/10 group-hover:text-primary/30 transition-colors duration-300 pointer-events-none select-none">
+                    0{idx + 1}
+                  </span>
+
+                  <div className="space-y-4 relative z-10">
+                    {/* Glowing Icon Container */}
+                    <div className="w-13 h-13 w-fit p-3.5 rounded-2xl bg-gradient-to-br from-primary/30 to-blue-500/10 border border-primary/40 text-sky-300 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300 shadow-md">
+                      <IconComp className="w-6 h-6" />
+                    </div>
+
+                    <h3 className="text-lg font-extrabold text-white group-hover:text-sky-300 transition-colors">
+                      {item.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal">
+                      {item.desc}
+                    </p>
                   </div>
-                  <h3 className="text-base font-bold text-navy">{item.title}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+
+                  {/* Animated bottom progress bar */}
+                  <div className="mt-6 pt-4 border-t border-white/10 relative z-10">
+                    <div className="w-10 h-1 rounded-full bg-primary/40 group-hover:w-full group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-sky-400 transition-all duration-500" />
+                  </div>
                 </div>
               );
             })}
@@ -387,7 +424,7 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="text-slate-500 text-xs font-bold uppercase">Phone Support</div>
-                  <div className="text-navy font-bold text-sm">+91 (800) 555-MOTOR</div>
+                  <a href="tel:+918344660031" className="text-navy font-bold text-sm hover:text-primary transition-colors">+91 83446 60031</a>
                 </div>
               </div>
 
@@ -397,17 +434,21 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="text-slate-500 text-xs font-bold uppercase">Email Support</div>
-                  <div className="text-navy font-bold text-sm">support@motorx.com</div>
+                  <a href="mailto:mjayakumaraero@gmail.com" className="text-navy font-bold text-sm hover:text-primary transition-colors">mjayakumaraero@gmail.com</a>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 text-primary flex items-center justify-center font-bold shrink-0">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-primary flex items-center justify-center font-bold shrink-0 mt-0.5">
                   <Building className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="text-slate-500 text-xs font-bold uppercase">Central Facility</div>
-                  <div className="text-navy font-bold">MotorX Innovation Park, Bangalore, India</div>
+                  <div className="text-navy font-bold leading-relaxed">
+                    Plot No. 3-898, Sri Swamy Ayyappa Cooperative Society,<br />
+                    Road No. 1, Madhapur, Hyderabad,<br />
+                    Telangana 500081, India
+                  </div>
                 </div>
               </div>
             </div>

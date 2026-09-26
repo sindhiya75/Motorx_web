@@ -147,21 +147,10 @@ export default function Motors() {
         </p>
       </div>
 
-      {/* Main Grid & Filters Layout */}
+      {/* Main Grid & Filters Layout (Product Grid on Left, Filters on Right) */}
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         
-        {/* Desktop & Mobile Filter Sidebar */}
-        <FilterSidebar
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          onResetFilters={handleResetFilters}
-          isOpen={isMobileFilterOpen}
-          onClose={() => setIsMobileFilterOpen(false)}
-          categories={categoriesData}
-          brands={brandsData}
-        />
-
-        {/* Product Listing Main Area */}
+        {/* Product Listing Main Area (Left) */}
         <div className="flex-1 w-full space-y-6">
           
           {/* Top Bar (Mobile filter toggle, results count, sorting) */}
@@ -266,6 +255,18 @@ export default function Motors() {
           )}
 
         </div>
+
+        {/* Desktop & Mobile Filter Sidebar (Right) */}
+        <FilterSidebar
+          filters={filters}
+          onFilterChange={handleFilterChange}
+          onResetFilters={handleResetFilters}
+          isOpen={isMobileFilterOpen}
+          onClose={() => setIsMobileFilterOpen(false)}
+          categories={categoriesData}
+          brands={brandsData}
+        />
+
       </div>
     </div>
   );

@@ -2,7 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { verifyAdminToken } = require('../middleware/authMiddleware');
 
-const { getAdminProducts, createAdminProduct, updateAdminProduct, deleteAdminProduct } = require('../controllers/adminProductController');
+const { 
+  getAdminProducts, 
+  createAdminProduct, 
+  updateAdminProduct, 
+  deleteAdminProduct,
+  createAdminCategory,
+  createAdminBrand
+} = require('../controllers/adminProductController');
 const { getAdminOrders, getAdminOrderDetails, updateAdminOrderStatus, getAdminCustomers } = require('../controllers/adminOrderController');
 const { getAdminInventory, updateAdminStock } = require('../controllers/adminInventoryController');
 const { getAdminAnalyticsSummary } = require('../controllers/adminAnalyticsController');
@@ -12,6 +19,10 @@ router.use(verifyAdminToken);
 
 // Analytics
 router.get('/analytics/summary', getAdminAnalyticsSummary);
+
+// Categories & Brands Management
+router.post('/categories', createAdminCategory);
+router.post('/brands', createAdminBrand);
 
 // Products Management
 router.get('/products', getAdminProducts);

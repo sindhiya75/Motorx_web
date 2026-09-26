@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Package, ArrowLeft, RefreshCw, AlertTriangle, Check, Save } from 'lucide-react';
 import { fetchAdminInventory, updateAdminStock } from '../../services/adminApi';
 import { useToast } from '../../context/ToastContext';
+import { normalizeProductImageUrl, handleImageError } from '../../utils/imageHelper';
 
 export default function AdminInventory() {
   const [inventory, setInventory] = useState([]);
@@ -113,7 +114,14 @@ export default function AdminInventory() {
                   return (
                     <tr key={inv.id} className="hover:bg-blue-50/30 transition-colors">
                       <td className="p-4 flex items-center gap-3">
-                        {inv.image && <img src={inv.image} alt={inv.productName} className="w-10 h-10 object-contain rounded border p-0.5 bg-gray-50 shrink-0" />}
+                        {inv.image && (
+                          <img
+                            src={normalizeProductImageUrl(inv.image)}
+                            onError={handleImageError}
+                            alt={inv.productName}
+                            className="w-10 h-10 object-contain rounded border p-0.5 bg-gray-50 shrink-0"
+                          />
+                        )}
                         <div>
                           <div className="font-bold text-navy text-xs">{inv.productName}</div>
                           <div className="text-[11px] text-gray-400">{inv.brand}</div>

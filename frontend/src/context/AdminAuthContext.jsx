@@ -40,19 +40,29 @@ export function AdminAuthProvider({ children }) {
     }
   }, [adminToken, adminUser]);
 
+  useEffect(() => {
+    const handleForceLogout = () => {
+      setAdminToken(null);
+      setAdminUser(null);
+    };
+
+    window.addEventListener('motorx_admin_logout', handleForceLogout);
+    return () => window.removeEventListener('motorx_admin_logout', handleForceLogout);
+  }, []);
+
   const loginAdmin = async (email, password) => {
     const res = await fetch(`${API_BASE_URL}/admin/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email: email.trim(), password })
     });
 
     const json = await res.json();
 
     if (!res.ok || !json.success) {
-      const msg = json.message || (json.errors && json.errors[0]?.msg) || 'Admin authentication failed';
+      const msg = json.message || (json.errors && json.errors[0]?.message) || (json.errors && json.errors[0]?.msg) || 'Admin authentication failed';
       throw new Error(msg);
     }
 
@@ -61,12 +71,22 @@ export function AdminAuthProvider({ children }) {
     return json.admin;
   };
 
-  const logoutAdmin = () => {
+  const logoutAdmin = async () => {
+    const token = adminToken;
     setAdminToken(null);
     setAdminUser(null);
     try {
       localStorage.removeItem('motorx_admin_token');
       localStorage.removeItem('motorx_admin_user');
+      if (token) {
+        await fetch(`${API_BASE_URL}/admin/auth/logout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }).catch(() => {});
+      }
     } catch (e) {}
   };
 

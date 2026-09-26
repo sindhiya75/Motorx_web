@@ -27,7 +27,7 @@ function formatProductRow(row) {
     status: row.status || 'IN_STOCK',
     featured: row.featured || false,
     popularity: row.popularity || 0,
-    image: row.primary_image || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
+    image: row.primary_image || '/products/cured_products/Carbon_Fiber_Sheet.jpeg',
     createdAt: row.created_at
   };
 }
@@ -289,8 +289,8 @@ async function getProductBySlug(req, res, next) {
         reviewCount: row.review_count || 0,
         stock: row.stock_quantity || 0,
         status: row.status || 'IN_STOCK',
-        image: images[0] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
-        images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'],
+        image: images[0] || '/products/cured_products/Carbon_Fiber_Sheet.jpeg',
+        images: images.length > 0 ? images : ['/products/cured_products/Carbon_Fiber_Sheet.jpeg'],
         description: row.description,
         specifications,
         applications: ["Aerospace & Defense", "Automotive Composite Tooling", "Marine & Wind Energy Structure"],

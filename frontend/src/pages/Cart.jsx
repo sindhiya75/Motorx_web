@@ -7,6 +7,7 @@ import QuantitySelector from '../components/QuantitySelector';
 import OrderSummary from '../components/OrderSummary';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { useToast } from '../context/ToastContext';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 export default function Cart() {
   const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
@@ -83,7 +84,8 @@ export default function Cart() {
                 <div key={item.id} className="p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4">
                   {/* Image */}
                   <img
-                    src={item.image}
+                    src={normalizeProductImageUrl(item.image)}
+                    onError={handleImageError}
                     alt={item.name}
                     className="w-20 h-20 sm:w-24 sm:h-24 object-contain bg-gray-50 rounded-xl p-2 border border-gray-200 shrink-0"
                   />

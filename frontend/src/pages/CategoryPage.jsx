@@ -154,19 +154,9 @@ export default function CategoryPage() {
         </div>
       </div>
 
-      {/* Main Filter & Grid Layout */}
+      {/* Main Filter & Grid Layout (Product Grid on Left, Filters on Right) */}
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         
-        <FilterSidebar
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          onResetFilters={handleResetFilters}
-          isOpen={isMobileFilterOpen}
-          onClose={() => setIsMobileFilterOpen(false)}
-          categories={categoriesList}
-          brands={brandsData}
-        />
-
         <div className="flex-1 w-full space-y-6">
           
           {/* Controls Bar */}
@@ -223,6 +213,18 @@ export default function CategoryPage() {
           )}
 
         </div>
+
+        {/* Filter Sidebar (Right) */}
+        <FilterSidebar
+          filters={filters}
+          onFilterChange={handleFilterChange}
+          onResetFilters={handleResetFilters}
+          isOpen={isMobileFilterOpen}
+          onClose={() => setIsMobileFilterOpen(false)}
+          categories={categoriesList}
+          brands={brandsData}
+        />
+
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { ShoppingCart, Search, ArrowLeft, RefreshCw, Eye, CheckCircle2, Truck, X
 import { fetchAdminOrders, fetchAdminOrderDetails, updateAdminOrderStatus } from '../../services/adminApi';
 import { formatINR } from '../../utils/formatINR';
 import { useToast } from '../../context/ToastContext';
+import { normalizeProductImageUrl, handleImageError } from '../../utils/imageHelper';
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -200,10 +201,16 @@ export default function AdminOrders() {
 
               {/* Items List */}
               <div className="space-y-3">
-                <div className="font-bold text-navy text-xs uppercase tracking-wider">Ordered Products</div>
                 {selectedOrder.items.map((item) => (
                   <div key={item.id} className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl text-xs">
-                    {item.image && <img src={item.image} alt={item.name} className="w-10 h-10 object-contain rounded border p-0.5" />}
+                    {item.image && (
+                      <img
+                        src={normalizeProductImageUrl(item.image)}
+                        onError={handleImageError}
+                        alt={item.name}
+                        className="w-10 h-10 object-contain rounded border p-0.5"
+                      />
+                    )}
                     <div className="flex-1 min-w-0">
                       <div className="font-bold text-gray-900 truncate">{item.name}</div>
                       <div className="text-gray-400 font-mono text-[10px]">SKU: {item.sku}</div>

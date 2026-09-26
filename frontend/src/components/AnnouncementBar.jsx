@@ -25,8 +25,8 @@ export default function AnnouncementBar() {
         <div className="hidden md:flex items-center gap-4 text-blue-100 text-xs font-medium">
           <span>GST Invoicing Available</span>
           <span className="text-blue-300/60 font-bold">•</span>
-          <a href="tel:+919876543210" className="hover:text-white font-semibold transition-colors">
-            Support: +91 98765 43210
+          <a href="tel:+918344660031" className="hover:text-white font-semibold transition-colors">
+            Support: +91 8344660031
           </a>
         </div>
       </div>

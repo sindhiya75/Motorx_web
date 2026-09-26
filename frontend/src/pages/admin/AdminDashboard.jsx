@@ -19,10 +19,12 @@ import {
   Loader2,
   RefreshCw,
   Plus,
+  Minus,
   Edit2,
   Trash2,
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  X
 } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import {
@@ -42,6 +44,7 @@ import {
 import { fetchCategories, fetchBrands } from '../../services/api';
 import { formatINR } from '../../utils/formatINR';
 import { useToast } from '../../context/ToastContext';
+import { normalizeProductImageUrl, handleImageError } from '../../utils/imageHelper';
 
 export default function AdminDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -90,10 +93,10 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+    <div className="h-screen max-h-screen bg-gray-50 flex flex-col font-sans overflow-hidden">
       
       {/* Top Admin Navigation Header */}
-      <header className="bg-navy text-white border-b border-navy-light sticky top-0 z-30 shadow-md">
+      <header className="bg-navy text-white border-b border-navy-light shrink-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold text-white">
@@ -125,12 +128,25 @@ export default function AdminDashboard() {
       </header>
 
       {/* Main Admin Body */}
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1 flex flex-col md:flex-row gap-8">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-5 flex-1 min-h-0 flex flex-col md:flex-row gap-6 overflow-hidden">
         
-        {/* Admin Navigation Sidebar */}
-        <aside className="w-full md:w-64 shrink-0 space-y-2">
+        {/* Tab Content Display Area (Left Content Pane) */}
+        <main className="flex-1 w-full min-w-0 h-full overflow-y-auto pr-1 md:pr-3 pb-6">
+          {activeTab === 'dashboard' && <DashboardTab metrics={metrics} loading={metricsLoading} onSelectTab={handleTabChange} />}
+          {activeTab === 'products' && <ProductsTab />}
+          {activeTab === 'categories' && <CategoriesTab />}
+          {activeTab === 'brands' && <BrandsTab />}
+          {activeTab === 'orders' && <OrdersTab />}
+          {activeTab === 'inventory' && <InventoryTab />}
+          {activeTab === 'customers' && <CustomersTab />}
+          {activeTab === 'settings' && <SettingsTab />}
+          {activeTab === 'change-password' && <ChangePasswordTab />}
+        </main>
+
+        {/* Admin Navigation Sidebar (Right Navigation Pane) */}
+        <aside className="w-full md:w-64 shrink-0 flex flex-col justify-between gap-3 h-full overflow-y-auto pb-6">
           <div className="bg-white p-3 rounded-2xl border border-gray-200 shadow-card space-y-1">
-            <div className="px-3 py-2 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+            <div className="px-3 py-1.5 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
               Control Modules
             </div>
 
@@ -152,7 +168,7 @@ export default function AdminDashboard() {
                 <button
                   key={item.id}
                   onClick={() => handleTabChange(item.id)}
-                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all text-left ${
+                  className={`w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-left ${
                     item.danger
                       ? 'text-rose-600 hover:bg-rose-50'
                       : active
@@ -166,29 +182,8 @@ export default function AdminDashboard() {
               );
             })}
           </div>
-
-          <div className="p-4 bg-blue-50/70 border border-blue-100 rounded-2xl text-xs text-slate-700 space-y-1 font-medium">
-            <div className="font-bold text-navy flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Active PostgreSQL Connection
-            </div>
-            <p className="text-slate-600 text-xs font-medium">
-              Admin auth & live store data backed by Node.js/Express API.
-            </p>
-          </div>
         </aside>
 
-        {/* Tab Content Display Area */}
-        <main className="flex-1 w-full min-w-0">
-          {activeTab === 'dashboard' && <DashboardTab metrics={metrics} loading={metricsLoading} onSelectTab={handleTabChange} />}
-          {activeTab === 'products' && <ProductsTab />}
-          {activeTab === 'categories' && <CategoriesTab />}
-          {activeTab === 'brands' && <BrandsTab />}
-          {activeTab === 'orders' && <OrdersTab />}
-          {activeTab === 'inventory' && <InventoryTab />}
-          {activeTab === 'customers' && <CustomersTab />}
-          {activeTab === 'settings' && <SettingsTab />}
-          {activeTab === 'change-password' && <ChangePasswordTab />}
-        </main>
       </div>
 
     </div>
@@ -299,6 +294,8 @@ function DashboardTab({ metrics, loading, onSelectTab }) {
 /* ========================================================================== */
 function ProductsTab() {
   const [products, setProducts] = useState([]);
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [brandsList, setBrandsList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -306,8 +303,19 @@ function ProductsTab() {
   const { addToast } = useToast();
 
   const [formData, setFormData] = useState({
-    name: '', price: '', salePrice: '', status: 'IN_STOCK', stock: 10,
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80', featured: false
+    name: '',
+    categoryId: '',
+    isManualCategory: false,
+    newCategoryName: '',
+    brandId: '',
+    isManualBrand: false,
+    newBrandName: '',
+    price: '',
+    salePrice: '',
+    status: 'IN_STOCK',
+    stock: 10,
+    image: '/products/cured_products/Carbon_Fiber_Sheet.jpeg',
+    featured: false
   });
 
   const loadProducts = async () => {
@@ -322,20 +330,62 @@ function ProductsTab() {
     }
   };
 
+  const refreshMetadata = async () => {
+    try {
+      const [cats, brs] = await Promise.all([fetchCategories(), fetchBrands()]);
+      setCategoriesList(cats || []);
+      setBrandsList(brs || []);
+    } catch (err) {
+      console.warn('Failed to load categories/brands:', err.message);
+    }
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadMeta() {
+      try {
+        const [cats, brs] = await Promise.all([fetchCategories(), fetchBrands()]);
+        if (isMounted) {
+          setCategoriesList(cats || []);
+          setBrandsList(brs || []);
+        }
+      } catch (err) {
+        console.warn('Failed to load categories/brands:', err.message);
+      }
+    }
+    loadMeta();
+    return () => { isMounted = false; };
+  }, []);
+
   useEffect(() => { loadProducts(); }, [search]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const payload = {
+        name: formData.name,
+        price: formData.price,
+        salePrice: formData.salePrice,
+        status: formData.status,
+        stock: formData.stock,
+        image: formData.image,
+        featured: formData.featured,
+        categoryId: formData.isManualCategory ? null : formData.categoryId,
+        newCategoryName: formData.isManualCategory ? formData.newCategoryName.trim() : undefined,
+        brandId: formData.isManualBrand ? null : formData.brandId,
+        newBrandName: formData.isManualBrand ? formData.newBrandName.trim() : undefined
+      };
+
       if (editingProduct) {
-        await updateAdminProduct(editingProduct.id, formData);
+        await updateAdminProduct(editingProduct.id, payload);
         addToast(`Updated product "${formData.name}"`, 'success');
       } else {
-        await createAdminProduct(formData);
+        await createAdminProduct(payload);
         addToast(`Created product "${formData.name}"`, 'success');
       }
       setIsAddModalOpen(false);
       setEditingProduct(null);
+      await refreshMetadata();
       loadProducts();
     } catch (err) {
       addToast(err.message || 'Action failed', 'error');
@@ -366,8 +416,19 @@ function ProductsTab() {
           onClick={() => {
             setEditingProduct(null);
             setFormData({
-              name: '', price: '', salePrice: '', status: 'IN_STOCK', stock: 10,
-              image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80', featured: false
+              name: '',
+              categoryId: categoriesList[0]?.id || '',
+              isManualCategory: false,
+              newCategoryName: '',
+              brandId: brandsList[0]?.id || '',
+              isManualBrand: false,
+              newBrandName: '',
+              price: '',
+              salePrice: '',
+              status: 'IN_STOCK',
+              stock: 10,
+              image: '/products/cured_products/Carbon_Fiber_Sheet.jpeg',
+              featured: false
             });
             setIsAddModalOpen(true);
           }}
@@ -396,6 +457,7 @@ function ProductsTab() {
             <thead className="bg-gray-50 border-b border-gray-200 text-slate-700 font-extrabold uppercase">
               <tr>
                 <th className="p-4">Product</th>
+                <th className="p-4">Category & Brand</th>
                 <th className="p-4">SKU</th>
                 <th className="p-4">Price</th>
                 <th className="p-4">Status</th>
@@ -405,21 +467,30 @@ function ProductsTab() {
             </thead>
             <tbody className="divide-y divide-gray-100 font-medium">
               {loading ? (
-                <tr><td colSpan="6" className="p-6 text-center text-gray-400">Loading catalog...</td></tr>
+                <tr><td colSpan="7" className="p-6 text-center text-gray-400">Loading catalog...</td></tr>
               ) : products.length === 0 ? (
-                <tr><td colSpan="6" className="p-6 text-center text-gray-400">No products found.</td></tr>
+                <tr><td colSpan="7" className="p-6 text-center text-gray-400">No products found.</td></tr>
               ) : (
                 products.map(p => (
                   <tr key={p.id} className="hover:bg-blue-50/20">
                     <td className="p-4 flex items-center gap-3">
-                      <img src={p.image} alt={p.name} className="w-9 h-9 object-contain bg-gray-50 rounded border p-0.5" />
-                      <div>
-                        <div className="font-bold text-navy">{p.name}</div>
-                        <div className="text-[10px] text-gray-400">{p.category}</div>
-                      </div>
+                      <img
+                        src={normalizeProductImageUrl(p.image)}
+                        onError={handleImageError}
+                        alt={p.name}
+                        className="w-9 h-9 object-contain bg-gray-50 rounded border p-0.5 shrink-0"
+                      />
+                      <div className="font-bold text-navy max-w-xs">{p.name}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className="font-bold text-slate-800 text-xs">{p.category || 'General Composites'}</div>
+                      <div className="text-[11px] text-gray-400">{p.brand || 'MOTORX Composites'}</div>
                     </td>
                     <td className="p-4 font-mono font-bold text-primary">{p.sku}</td>
-                    <td className="p-4 font-bold text-navy">{formatINR(p.salePrice || p.price)}</td>
+                    <td className="p-4 font-bold text-navy">
+                      <div>{formatINR(p.salePrice || p.price)}</div>
+                      {p.salePrice && <div className="text-[10px] text-gray-400 line-through">{formatINR(p.price)}</div>}
+                    </td>
                     <td className="p-4">
                       <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${
                         p.status === 'IN_STOCK' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
@@ -429,7 +500,21 @@ function ProductsTab() {
                     <td className="p-4 text-right space-x-1">
                       <button onClick={() => {
                         setEditingProduct(p);
-                        setFormData({ name: p.name, price: p.price, salePrice: p.salePrice || '', status: p.status, stock: p.stock, image: p.image || '', featured: p.featured || false });
+                        setFormData({
+                          name: p.name,
+                          categoryId: p.categoryId || '',
+                          isManualCategory: false,
+                          newCategoryName: '',
+                          brandId: p.brandId || '',
+                          isManualBrand: false,
+                          newBrandName: '',
+                          price: p.price,
+                          salePrice: p.salePrice || '',
+                          status: p.status,
+                          stock: p.stock,
+                          image: p.image || '',
+                          featured: p.featured || false
+                        });
                         setIsAddModalOpen(true);
                       }} className="p-1.5 bg-blue-50 text-primary rounded-lg"><Edit2 className="w-3.5 h-3.5" /></button>
                       <button onClick={() => handleDelete(p.id, p.name)} className="p-1.5 bg-rose-50 text-rose-600 rounded-lg"><Trash2 className="w-3.5 h-3.5" /></button>
@@ -443,47 +528,214 @@ function ProductsTab() {
       </div>
 
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-deep/60 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <h3 className="font-bold text-navy text-base border-b pb-2">
-              {editingProduct ? `Edit Product #${editingProduct.id}` : 'Create New Motor Product'}
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-deep/60 backdrop-blur-sm overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-xl w-full shadow-2xl flex flex-col max-h-[92vh] overflow-hidden">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-5 sm:px-6 py-3.5 border-b border-gray-100 bg-white shrink-0">
               <div>
-                <label className="block font-bold text-gray-700 mb-1">Product Name *</label>
-                <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full p-2 border rounded-xl" />
+                <h3 className="font-bold text-navy text-base">
+                  {editingProduct ? `Edit Product #${editingProduct.id}` : 'Create New Product'}
+                </h3>
+                <p className="text-[11px] text-gray-500">Configure product specifications, pricing and inventory</p>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setIsAddModalOpen(false)}
+                className="p-1.5 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Form */}
+            <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden text-xs">
+              <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-3.5">
                 <div>
-                  <label className="block font-bold text-gray-700 mb-1">Price (₹) *</label>
-                  <input type="number" required value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} className="w-full p-2 border rounded-xl" />
+                  <label className="block font-bold text-gray-700 mb-1">Product Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={e => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="e.g. AeroCore Structural PVC Foam Core"
+                    className="w-full p-2.5 border border-gray-300 rounded-xl text-xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                  />
                 </div>
+
+                {/* Category & Brand Side-by-Side in 2-column Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Category */}
+                  <div className="p-2.5 bg-gray-50/90 rounded-xl border border-gray-200 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className="font-bold text-navy text-[11px]">Category *</label>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({
+                          ...formData,
+                          isManualCategory: !formData.isManualCategory,
+                          newCategoryName: ''
+                        })}
+                        className="text-[10px] font-bold text-primary hover:underline"
+                      >
+                        {formData.isManualCategory ? '← Select Existing' : '+ New Category'}
+                      </button>
+                    </div>
+                    {formData.isManualCategory ? (
+                      <input
+                        type="text"
+                        required
+                        value={formData.newCategoryName}
+                        onChange={e => setFormData({ ...formData, newCategoryName: e.target.value })}
+                        placeholder="New category name"
+                        className="w-full p-2 border border-primary/50 bg-white rounded-lg text-navy font-bold text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    ) : (
+                      <select
+                        required
+                        value={formData.categoryId}
+                        onChange={e => {
+                          if (e.target.value === '__NEW__') {
+                            setFormData({ ...formData, isManualCategory: true, newCategoryName: '' });
+                          } else {
+                            setFormData({ ...formData, categoryId: e.target.value });
+                          }
+                        }}
+                        className="w-full p-2 border border-gray-300 rounded-lg bg-white font-medium text-gray-800 text-xs"
+                      >
+                        <option value="">Select Category</option>
+                        {categoriesList.map(c => (
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                        <option value="__NEW__">+ Enter New Category...</option>
+                      </select>
+                    )}
+                  </div>
+
+                  {/* Brand */}
+                  <div className="p-2.5 bg-gray-50/90 rounded-xl border border-gray-200 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className="font-bold text-navy text-[11px]">Brand / Manufacturer</label>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({
+                          ...formData,
+                          isManualBrand: !formData.isManualBrand,
+                          newBrandName: ''
+                        })}
+                        className="text-[10px] font-bold text-primary hover:underline"
+                      >
+                        {formData.isManualBrand ? '← Select Existing' : '+ New Brand'}
+                      </button>
+                    </div>
+                    {formData.isManualBrand ? (
+                      <input
+                        type="text"
+                        required
+                        value={formData.newBrandName}
+                        onChange={e => setFormData({ ...formData, newBrandName: e.target.value })}
+                        placeholder="New brand name"
+                        className="w-full p-2 border border-primary/50 bg-white rounded-lg text-navy font-bold text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    ) : (
+                      <select
+                        value={formData.brandId}
+                        onChange={e => {
+                          if (e.target.value === '__NEW__') {
+                            setFormData({ ...formData, isManualBrand: true, newBrandName: '' });
+                          } else {
+                            setFormData({ ...formData, brandId: e.target.value });
+                          }
+                        }}
+                        className="w-full p-2 border border-gray-300 rounded-lg bg-white font-medium text-gray-800 text-xs"
+                      >
+                        <option value="">Select Brand</option>
+                        {brandsList.map(b => (
+                          <option key={b.id} value={b.id}>{b.name}</option>
+                        ))}
+                        <option value="__NEW__">+ Enter New Brand...</option>
+                      </select>
+                    )}
+                  </div>
+                </div>
+
+                {/* Price & Sale Price */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-1">Price (₹) *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.price}
+                      onChange={e => setFormData({ ...formData, price: e.target.value })}
+                      className="w-full p-2.5 border border-gray-300 rounded-xl text-xs focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-1">Sale Price (₹)</label>
+                    <input
+                      type="number"
+                      value={formData.salePrice}
+                      onChange={e => setFormData({ ...formData, salePrice: e.target.value })}
+                      className="w-full p-2.5 border border-gray-300 rounded-xl text-xs focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                </div>
+
+                {/* Stock & Status */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-1">Stock Quantity *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.stock}
+                      onChange={e => setFormData({ ...formData, stock: e.target.value })}
+                      className="w-full p-2.5 border border-gray-300 rounded-xl text-xs focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-1">Status</label>
+                    <select
+                      value={formData.status}
+                      onChange={e => setFormData({ ...formData, status: e.target.value })}
+                      className="w-full p-2.5 border border-gray-300 rounded-xl bg-white text-xs focus:outline-none focus:border-primary"
+                    >
+                      <option value="IN_STOCK">IN_STOCK</option>
+                      <option value="LOW_STOCK">LOW_STOCK</option>
+                      <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Image URL */}
                 <div>
-                  <label className="block font-bold text-gray-700 mb-1">Sale Price (₹)</label>
-                  <input type="number" value={formData.salePrice} onChange={e => setFormData({ ...formData, salePrice: e.target.value })} className="w-full p-2 border rounded-xl" />
+                  <label className="block font-bold text-gray-700 mb-1">Image URL / Path</label>
+                  <input
+                    type="text"
+                    value={formData.image}
+                    onChange={e => setFormData({ ...formData, image: e.target.value })}
+                    placeholder="/products/cured_products/Carbon_Fiber_Sheet.jpeg"
+                    className="w-full p-2.5 border border-gray-300 rounded-xl font-mono text-[11px] focus:outline-none focus:border-primary"
+                  />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold text-gray-700 mb-1">Stock Quantity *</label>
-                  <input type="number" required value={formData.stock} onChange={e => setFormData({ ...formData, stock: e.target.value })} className="w-full p-2 border rounded-xl" />
-                </div>
-                <div>
-                  <label className="block font-bold text-gray-700 mb-1">Status</label>
-                  <select value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} className="w-full p-2 border rounded-xl bg-white">
-                    <option value="IN_STOCK">IN_STOCK</option>
-                    <option value="LOW_STOCK">LOW_STOCK</option>
-                    <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label className="block font-bold text-gray-700 mb-1">Image URL</label>
-                <input type="url" value={formData.image} onChange={e => setFormData({ ...formData, image: e.target.value })} className="w-full p-2 border rounded-xl font-mono text-[11px]" />
-              </div>
-              <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={() => setIsAddModalOpen(false)} className="px-4 py-2 border rounded-xl">Cancel</button>
-                <button type="submit" className="px-4 py-2 bg-primary text-white font-bold rounded-xl">Save</button>
+
+              {/* Modal Sticky Footer */}
+              <div className="flex items-center justify-end gap-2.5 px-5 sm:px-6 py-3 border-t border-gray-100 bg-gray-50/70 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="px-4 py-2 border border-gray-300 rounded-xl font-bold text-gray-600 hover:bg-white transition-colors text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl shadow-md transition-colors text-xs"
+                >
+                  {editingProduct ? 'Save Changes' : 'Create & Save Product'}
+                </button>
               </div>
             </form>
           </div>
@@ -680,12 +932,15 @@ function OrdersTab() {
 function InventoryTab() {
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [lowStockOnly, setLowStockOnly] = useState(false);
+  const [adjustModalItem, setAdjustModalItem] = useState(null);
+  const [saving, setSaving] = useState(false);
   const { addToast } = useToast();
 
   const loadInventory = async () => {
     setLoading(true);
     try {
-      const data = await fetchAdminInventory();
+      const data = await fetchAdminInventory(lowStockOnly);
       setInventory(data || []);
     } catch (err) {
       addToast(err.message || 'Failed to load inventory', 'error');
@@ -694,76 +949,275 @@ function InventoryTab() {
     }
   };
 
-  useEffect(() => { loadInventory(); }, []);
+  useEffect(() => { loadInventory(); }, [lowStockOnly]);
 
-  const handleUpdateStock = async (productId, currentStock) => {
-    const newStockStr = window.prompt("Enter new stock quantity for product:", currentStock);
-    if (newStockStr !== null) {
-      const newStock = parseInt(newStockStr, 10);
-      if (!isNaN(newStock) && newStock >= 0) {
-        try {
-          await updateAdminStock(productId, newStock);
-          addToast(`Updated stock quantity to ${newStock}`, 'success');
-          loadInventory();
-        } catch (err) {
-          addToast(err.message || 'Stock update failed', 'error');
-        }
-      }
+  const handleSaveAdjustStock = async (e) => {
+    e.preventDefault();
+    if (!adjustModalItem) return;
+    const qty = parseInt(adjustModalItem.newStock, 10);
+    const threshold = parseInt(adjustModalItem.newThreshold, 10);
+
+    if (isNaN(qty) || qty < 0) {
+      addToast('Please enter a valid stock quantity (0 or higher)', 'error');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await updateAdminStock(adjustModalItem.productId, qty, isNaN(threshold) ? 5 : threshold);
+      addToast(`Updated stock for "${adjustModalItem.productName || adjustModalItem.name}" to ${qty} units`, 'success');
+      setAdjustModalItem(null);
+      loadInventory();
+    } catch (err) {
+      addToast(err.message || 'Stock update failed', 'error');
+    } finally {
+      setSaving(false);
     }
   };
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-gray-200 pb-3">
-        <h2 className="text-2xl font-extrabold text-navy">Warehouse Inventory Control</h2>
-        <p className="text-xs text-gray-500">Monitor stock levels & trigger restock alerts</p>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-200 pb-3">
+        <div>
+          <h2 className="text-2xl font-extrabold text-navy">Warehouse Inventory Control</h2>
+          <p className="text-xs text-gray-500">Monitor warehouse stock quantities, SKU levels, and adjust inventory</p>
+        </div>
+        <button onClick={loadInventory} className="p-2 text-gray-500 hover:text-primary rounded-xl border border-gray-200 bg-white">
+          <RefreshCw className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Filter and stats bar */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+        <label className="flex items-center gap-2 text-xs font-bold text-gray-700 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={lowStockOnly}
+            onChange={(e) => setLowStockOnly(e.target.checked)}
+            className="w-4 h-4 text-primary focus:ring-primary rounded border-gray-300"
+          />
+          <span>Show Low Stock & Out-of-Stock Items Only</span>
+        </label>
+        <span className="text-xs text-gray-500 font-semibold">
+          Total Tracked Products: <strong className="text-navy font-bold">{inventory.length}</strong>
+        </span>
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-200 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-gray-50 border-b border-gray-200 text-slate-700 font-extrabold uppercase">
+            <thead className="bg-gray-50 border-b border-gray-200 text-slate-700 font-extrabold uppercase tracking-wider">
               <tr>
                 <th className="p-4">SKU</th>
-                <th className="p-4">Motor Model</th>
+                <th className="p-4">Product Name</th>
+                <th className="p-4">Category</th>
+                <th className="p-4">Stock Status</th>
                 <th className="p-4">Stock Quantity</th>
                 <th className="p-4">Threshold</th>
-                <th className="p-4 text-right">Quick Restock</th>
+                <th className="p-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 font-medium">
               {loading ? (
-                <tr><td colSpan="5" className="p-6 text-center text-gray-400">Loading stock levels...</td></tr>
+                <tr><td colSpan="7" className="p-8 text-center text-gray-400">Loading stock levels from PostgreSQL...</td></tr>
               ) : inventory.length === 0 ? (
-                <tr><td colSpan="5" className="p-6 text-center text-gray-400">No inventory records.</td></tr>
+                <tr><td colSpan="7" className="p-8 text-center text-gray-400">No inventory records matching criteria.</td></tr>
               ) : (
-                inventory.map(inv => (
-                  <tr key={inv.productId} className="hover:bg-blue-50/20">
-                    <td className="p-4 font-mono font-bold text-primary">{inv.sku}</td>
-                    <td className="p-4 font-bold text-navy">{inv.name}</td>
-                    <td className="p-4">
-                      <span className={`px-2.5 py-1 rounded-full font-bold text-xs ${
-                        inv.stockQuantity <= inv.lowStockThreshold ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
-                      }`}>
+                inventory.map(inv => {
+                  const isOut = inv.stockQuantity === 0;
+                  const isLow = inv.stockQuantity <= (inv.lowStockThreshold || 5);
+                  const productName = inv.productName || inv.name || 'Product';
+                  const sku = inv.productSku || inv.sku || 'N/A';
+
+                  return (
+                    <tr key={inv.productId || inv.id} className="hover:bg-blue-50/20 transition-colors">
+                      <td className="p-4 font-mono font-bold text-primary">{sku}</td>
+                      <td className="p-4 flex items-center gap-3">
+                        <img
+                          src={normalizeProductImageUrl(inv.image)}
+                          onError={handleImageError}
+                          alt={productName}
+                          className="w-9 h-9 object-contain bg-gray-50 rounded border p-0.5 shrink-0"
+                        />
+                        <div>
+                          <div className="font-bold text-navy text-xs">{productName}</div>
+                          <div className="text-[11px] text-gray-400">{inv.brand || 'MOTORX Composites'}</div>
+                        </div>
+                      </td>
+                      <td className="p-4 text-gray-600 font-medium">{inv.category || 'General Composites'}</td>
+                      <td className="p-4">
+                        <span className={`px-2.5 py-1 rounded-full font-bold text-[10px] ${
+                          isOut ? 'bg-rose-50 text-rose-700 border border-rose-200' :
+                          isLow ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                          'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        }`}>
+                          {isOut ? 'OUT OF STOCK' : isLow ? 'LOW STOCK' : 'HEALTHY'}
+                        </span>
+                      </td>
+                      <td className="p-4 font-bold text-navy text-xs">
                         {inv.stockQuantity} units
-                      </span>
-                    </td>
-                    <td className="p-4 font-mono text-gray-500">{inv.lowStockThreshold} units</td>
-                    <td className="p-4 text-right">
-                      <button
-                        onClick={() => handleUpdateStock(inv.productId, inv.stockQuantity)}
-                        className="px-3 py-1 bg-primary text-white font-bold rounded-lg text-xs hover:bg-primary-hover"
-                      >
-                        Adjust Stock
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                      </td>
+                      <td className="p-4 font-mono text-gray-500">
+                        {inv.lowStockThreshold || 5} units
+                      </td>
+                      <td className="p-4 text-right">
+                        <button
+                          onClick={() => setAdjustModalItem({
+                            productId: inv.productId,
+                            productName,
+                            productSku: sku,
+                            image: inv.image,
+                            newStock: inv.stockQuantity,
+                            newThreshold: inv.lowStockThreshold || 5,
+                            category: inv.category
+                          })}
+                          className="px-3 py-1.5 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl text-xs shadow-sm transition-colors"
+                        >
+                          Adjust Stock
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Professional Adjust Stock Modal */}
+      {adjustModalItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-deep/60 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+              <div>
+                <h3 className="font-bold text-navy text-base">Adjust Inventory Stock</h3>
+                <span className="font-mono text-xs font-bold text-primary">SKU: {adjustModalItem.productSku}</span>
+              </div>
+              <button
+                onClick={() => setAdjustModalItem(null)}
+                className="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl border border-gray-200">
+              <img
+                src={normalizeProductImageUrl(adjustModalItem.image)}
+                onError={handleImageError}
+                alt={adjustModalItem.productName}
+                className="w-12 h-12 object-contain bg-white rounded-xl border p-1 shrink-0"
+              />
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-navy text-xs truncate">{adjustModalItem.productName}</div>
+                <div className="text-[11px] text-gray-500">{adjustModalItem.category || 'Composite Materials'}</div>
+              </div>
+            </div>
+
+            <form onSubmit={handleSaveAdjustStock} className="space-y-4 text-xs">
+              <div>
+                <label className="block font-bold text-gray-700 mb-1">
+                  Current Stock Quantity (Units) *
+                </label>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setAdjustModalItem(prev => ({
+                      ...prev,
+                      newStock: Math.max(0, parseInt(prev.newStock || 0) - 1)
+                    }))}
+                    className="w-10 h-10 bg-gray-100 hover:bg-gray-200 text-navy font-bold rounded-xl flex items-center justify-center text-base"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    min="0"
+                    required
+                    value={adjustModalItem.newStock}
+                    onChange={(e) => setAdjustModalItem({ ...adjustModalItem, newStock: e.target.value })}
+                    className="flex-1 p-2.5 text-center text-base font-extrabold border rounded-xl bg-gray-50 focus:bg-white text-navy focus:outline-none focus:border-primary"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setAdjustModalItem(prev => ({
+                      ...prev,
+                      newStock: parseInt(prev.newStock || 0) + 1
+                    }))}
+                    className="w-10 h-10 bg-gray-100 hover:bg-gray-200 text-navy font-bold rounded-xl flex items-center justify-center text-base"
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Quick adjustments */}
+                <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                  <span className="text-[10px] text-gray-400 font-bold uppercase mr-1">Quick Add:</span>
+                  {[5, 10, 25, 50].map(add => (
+                    <button
+                      key={add}
+                      type="button"
+                      onClick={() => setAdjustModalItem(prev => ({
+                        ...prev,
+                        newStock: parseInt(prev.newStock || 0) + add
+                      }))}
+                      className="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-primary font-bold text-[11px] rounded-lg transition-colors"
+                    >
+                      +{add}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setAdjustModalItem(prev => ({ ...prev, newStock: 0 }))}
+                    className="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-[11px] rounded-lg transition-colors ml-auto"
+                  >
+                    Set 0
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-gray-700 mb-1">
+                  Low Stock Alert Threshold (Units)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  value={adjustModalItem.newThreshold}
+                  onChange={(e) => setAdjustModalItem({ ...adjustModalItem, newThreshold: e.target.value })}
+                  className="w-full p-2.5 border rounded-xl bg-gray-50 focus:bg-white text-xs font-semibold"
+                />
+                <p className="text-[10px] text-gray-400 mt-1">Triggers low stock warnings when quantity drops at or below this value.</p>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-gray-100">
+                <button
+                  type="button"
+                  onClick={() => setAdjustModalItem(null)}
+                  className="px-4 py-2.5 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-50 font-bold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl shadow-md transition-colors flex items-center gap-1.5 disabled:opacity-50"
+                >
+                  {saving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    <span>Save Stock Quantity</span>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -847,7 +1301,7 @@ function SettingsTab() {
     currency: 'INR (₹)',
     shippingFee: '150',
     freeShippingMin: '5000',
-    supportEmail: 'support@motorx.com'
+    supportEmail: 'mjayakumaraero@gmail.com'
   });
 
   const handleSave = (e) => {

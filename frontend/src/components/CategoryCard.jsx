@@ -1,9 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Navigation, Plane, Camera, ShieldAlert, Flame } from 'lucide-react';
+import {
+  ArrowRight,
+  Zap,
+  Navigation,
+  Plane,
+  Camera,
+  ShieldAlert,
+  Flame,
+  Layers,
+  Package,
+  ShieldCheck,
+  Wind,
+  Cpu,
+  Wrench,
+  Disc,
+  Sparkles,
+  Box
+} from 'lucide-react';
 
 const iconMap = {
+  Layers,
+  Package,
   Zap,
+  ShieldCheck,
+  Wind,
+  Cpu,
+  Wrench,
+  Disc,
+  Sparkles,
+  Box,
   Navigation,
   Plane,
   Camera,
@@ -14,11 +40,14 @@ const iconMap = {
 export default function CategoryCard({ category }) {
   if (!category) return null;
 
-  const IconComponent = iconMap[category.icon] || Zap;
+  const IconComponent = iconMap[category.icon] || Layers;
+  const categoryLink = category.slug
+    ? `/category/${category.slug}`
+    : `/category/${encodeURIComponent(category.name.toLowerCase().replace(/ /g, '-'))}`;
 
   return (
     <Link
-      to={`/motors?category=${encodeURIComponent(category.name)}`}
+      to={categoryLink}
       className="group relative flex flex-col justify-between p-6 bg-white rounded-2xl border border-gray-200 hover:border-primary/50 shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden"
     >
       {/* Background Subtle Gradient Overlay */}

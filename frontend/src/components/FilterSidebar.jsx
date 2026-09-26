@@ -1,5 +1,6 @@
 import React from 'react';
-import { Filter, RefreshCw, Check } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Filter, RefreshCw, Check, X } from 'lucide-react';
 import RatingStars from './RatingStars';
 
 export default function FilterSidebar({
@@ -38,19 +39,39 @@ export default function FilterSidebar({
   const content = (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-gray-200">
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-primary" />
-          <h3 className="font-bold text-navy text-base">Filter Catalogue</h3>
+      <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-blue-50 text-primary flex items-center justify-center shadow-xs shrink-0">
+            <Filter className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="font-extrabold text-navy text-sm sm:text-base leading-tight">Filters</h3>
+            <span className="text-[10px] text-gray-400 font-medium">Refine catalogue</span>
+          </div>
         </div>
-        <button
-          type="button"
-          onClick={onResetFilters}
-          className="text-xs font-bold text-slate-600 hover:text-primary flex items-center gap-1 transition-colors"
-        >
-          <RefreshCw className="w-3 h-3" />
-          CLEAR ALL
-        </button>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onResetFilters}
+            className="text-[11px] font-bold text-slate-500 hover:text-primary px-2.5 py-1.5 rounded-lg bg-gray-50 hover:bg-blue-50 transition-all flex items-center gap-1 border border-gray-200/80 hover:border-primary/30 cursor-pointer"
+            title="Reset all filters"
+          >
+            <RefreshCw className="w-3 h-3" />
+            <span>Reset</span>
+          </button>
+
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="lg:hidden p-1.5 text-gray-400 hover:text-navy rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Close filters"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Categories */}
@@ -187,20 +208,23 @@ export default function FilterSidebar({
   // Mobile Drawer Overlay
   return (
     <>
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-64 shrink-0 bg-white p-5 rounded-2xl border border-gray-200 shadow-card">
+      {/* Desktop Sidebar (Fixed within height on the right side) */}
+      <div className="hidden lg:block w-64 shrink-0 bg-white p-5 rounded-2xl border border-gray-200 shadow-card sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto">
         {content}
       </div>
 
-      {/* Mobile Drawer */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden flex">
-          <div className="fixed inset-0 bg-navy-deep/60 backdrop-blur-sm" onClick={onClose} />
-          <div className="relative ml-auto w-full max-w-xs bg-white h-full shadow-2xl p-6 overflow-y-auto z-10 flex flex-col justify-between">
-            {content}
-          </div>
-        </div>
-      )}
+      {/* Mobile Drawer (Mounted to document.body) */}
+      {isOpen &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div className="fixed inset-0 z-[100] lg:hidden flex">
+            <div className="fixed inset-0 bg-navy-deep/60 backdrop-blur-sm" onClick={onClose} />
+            <div className="relative ml-auto w-full max-w-xs bg-white h-full max-h-screen shadow-2xl p-6 overflow-y-auto z-10 flex flex-col justify-between animate-in slide-in-from-right duration-200">
+              {content}
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   );
 }

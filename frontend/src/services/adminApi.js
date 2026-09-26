@@ -18,6 +18,14 @@ export async function adminFetch(endpoint, options = {}) {
   });
 
   const json = await res.json();
+  if (res.status === 401) {
+    try {
+      localStorage.removeItem('motorx_admin_token');
+      localStorage.removeItem('motorx_admin_user');
+      window.dispatchEvent(new Event('motorx_admin_logout'));
+    } catch (e) {}
+  }
+
   if (!res.ok || !json.success) {
     const msg = json.message || 'Admin API request failed';
     throw new Error(msg);
@@ -51,6 +59,28 @@ export async function fetchAdminProducts(params = {}) {
   });
   const qStr = query.toString();
   return adminFetch(`/admin/products${qStr ? `?${qStr}` : ''}`);
+}
+
+/**
+ * Create a new Category
+ */
+export async function createAdminCategory(categoryData) {
+  const json = await adminFetch('/admin/categories', {
+    method: 'POST',
+    body: JSON.stringify(categoryData)
+  });
+  return json.data;
+}
+
+/**
+ * Create a new Brand
+ */
+export async function createAdminBrand(brandData) {
+  const json = await adminFetch('/admin/brands', {
+    method: 'POST',
+    body: JSON.stringify(brandData)
+  });
+  return json.data;
 }
 
 /**
@@ -138,6 +168,54 @@ export async function changeAdminPassword(currentPassword, newPassword) {
     method: 'PUT',
     body: JSON.stringify({ currentPassword, newPassword })
   });
+}
+
+/**
+ * Step 1: Request 2-Step OTP Code for Admin Password Recovery
+ */
+export async function requestAdminForgotPassword(email) {
+  const res = await fetch(`${API_BASE_URL}/admin/auth/forgot-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || 'Failed to request password reset code');
+  }
+  return json;
+}
+
+/**
+ * Step 1.5: Verify 2-Step OTP Code
+ */
+export async function verifyAdminResetCode(email, code) {
+  const res = await fetch(`${API_BASE_URL}/admin/auth/verify-code`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, code })
+  });
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || 'Invalid or expired verification code');
+  }
+  return json;
+}
+
+/**
+ * Step 2: 2-Step Verification + Set New Admin Password
+ */
+export async function resetAdminPassword(email, code, newPassword) {
+  const res = await fetch(`${API_BASE_URL}/admin/auth/reset-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, code, newPassword })
+  });
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || 'Failed to reset password');
+  }
+  return json;
 }
 
 /**

@@ -8,11 +8,11 @@ INSERT INTO admins (name, email, password_hash, role) VALUES
 
 -- Insert 5 Composite Categories
 INSERT INTO categories (name, slug, description, image) VALUES
-('Moulds & Patterns', 'moulds-patterns', 'High-precision composite tooling blocks, epoxy pattern boards, and master moulds for aerospace and automotive composite manufacturing.', 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'),
-('Core Materials', 'core-materials', 'Structural PVC foam cores, PET foam, honeycomb panels, and end-grain balsa for sandwich composite structures.', 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80'),
-('Pultruded Products', 'pultruded-products', 'High-strength pultruded carbon fiber rods, fiberglass tubes, and structural composite profiles.', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80'),
-('Cured Products', 'cured-products', 'Pre-cured 3K carbon fiber sheets, G10/FR4 epoxy glass laminates, and cured structural composite plates.', 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&w=600&q=80'),
-('Vacuum Bagging Consumables', 'vacuum-bagging-consumables', 'High-temperature vacuum bagging films, nylon peel plies, polyester breather fabrics, and sealant tapes.', 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80');
+('Moulds & Patterns', 'moulds-patterns', 'High-precision composite tooling blocks, epoxy pattern boards, and master moulds for aerospace and automotive composite manufacturing.', '/products/moulds_patterns/Epoxy_Tooling_Board.jpeg'),
+('Core Materials', 'core-materials', 'Structural PVC foam cores, PET foam, honeycomb panels, and end-grain balsa for sandwich composite structures.', '/products/core_materials/Aluminum_Honeycomb_Core.jpeg'),
+('Pultruded Products', 'pultruded-products', 'High-strength pultruded carbon fiber rods, fiberglass tubes, and structural composite profiles.', '/products/pultruded_products/Carbon_Fiber_Rod.jpeg'),
+('Cured Products', 'cured-products', 'Pre-cured 3K carbon fiber sheets, G10/FR4 epoxy glass laminates, and cured structural composite plates.', '/products/cured_products/Carbon_Fiber_Sheet.jpeg'),
+('Vacuum Bagging Consumables', 'vacuum-bagging-consumables', 'High-temperature vacuum bagging films, nylon peel plies, polyester breather fabrics, and sealant tapes.', '/products/vaccum_bagging/Vacuum_Bagging_Film.jpeg');
 
 -- Insert Composite Brands
 INSERT INTO brands (name, slug, description) VALUES
@@ -61,31 +61,31 @@ INSERT INTO products (sku, name, slug, description, category_id, brand_id, price
 
 -- Insert Primary Images for all 25 Composite Products
 INSERT INTO product_images (product_id, image_url, alt_text, sort_order, is_primary) VALUES
-(1, 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80', 'PolyForm Epoxy Tooling Board', 1, true),
-(2, 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80', 'Polyurethane Machining Board', 1, true),
-(3, 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', 'Vinyl Ester Tooling Gelcoat', 1, true),
-(4, 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', 'Release Wax', 1, true),
-(5, 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&w=600&q=80', 'Carbon Tooling Prepreg', 1, true),
-(6, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 'AeroCore PVC Foam H60', 1, true),
-(7, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 'AeroCore PVC Foam H80', 1, true),
-(8, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 'AeroCore PET Foam Core', 1, true),
-(9, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 'Nomex Honeycomb Core', 1, true),
-(10, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80', 'End-Grain Balsa Sheet', 1, true),
-(11, 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80', 'TitanPultrusion Carbon Rod', 1, true),
-(12, 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80', 'Unidirectional Carbon Tube', 1, true),
-(13, 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80', 'Fiberglass Pultruded Tube', 1, true),
-(14, 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80', 'Carbon Fiber Flat Strip', 1, true),
-(15, 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80', 'Fiberglass Angle Profile', 1, true),
-(16, 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&w=600&q=80', '3K Twill Carbon Sheet 2mm', 1, true),
-(17, 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&w=600&q=80', '3K Twill Carbon Sheet 3mm', 1, true),
-(18, 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&w=600&q=80', 'G10 FR4 Epoxy Sheet', 1, true),
-(19, 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&w=600&q=80', 'Carbon Honeycomb Panel', 1, true),
-(20, 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&w=600&q=80', 'Cured Carbon Laminate Strip', 1, true),
-(21, 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', 'Nylon Vacuum Film 120C', 1, true),
-(22, 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', 'Autoclave Bagging Film 204C', 1, true),
-(23, 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', 'Nylon Peel Ply 100g', 1, true),
-(24, 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', 'Polyester Breather Fabric', 1, true),
-(25, 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', 'Butyl Sealant Tape', 1, true);
+(1, '/products/moulds_patterns/Epoxy_Tooling_Board.jpeg', 'PolyForm Epoxy Tooling Board', 1, true),
+(2, '/products/moulds_patterns/PU_Tooling_Board.jpeg', 'Polyurethane Machining Board', 1, true),
+(3, '/products/Epoxy_Resin/Epoxy_Gel_Coat.jpeg', 'Vinyl Ester Tooling Gelcoat', 1, true),
+(4, '/products/moulds_patterns/PTFE_Coated_Fibreglass_with_Silicone_Adhesive.jpeg', 'Release Wax', 1, true),
+(5, '/products/moulds_patterns/High_Temp_PU_Tooling_Board.jpeg', 'Carbon Tooling Prepreg', 1, true),
+(6, '/products/core_materials/PVC_Foam_Core.jpeg', 'AeroCore PVC Foam H60', 1, true),
+(7, '/products/core_materials/PMI_Foam_Cores.jpeg', 'AeroCore PVC Foam H80', 1, true),
+(8, '/products/core_materials/PET_Foam_Core.jpeg', 'AeroCore PET Foam Core', 1, true),
+(9, '/products/core_materials/Nomex_Honeycomb_Core.jpeg', 'Nomex Honeycomb Core', 1, true),
+(10, '/products/core_materials/Sandwich_Panels.jpeg', 'End-Grain Balsa Sheet', 1, true),
+(11, '/products/pultruded_products/Carbon_Fiber_Rod.jpeg', 'TitanPultrusion Carbon Rod', 1, true),
+(12, '/products/pultruded_products/Rectangle_Shaped_Pultruded_Carbon_Fiber_Tube.jpeg', 'Unidirectional Carbon Tube', 1, true),
+(13, '/products/pultruded_products/Pultruded_Fiber_Glass_Rod.jpeg', 'Fiberglass Pultruded Tube', 1, true),
+(14, '/products/pultruded_products/Pultruded_Carbon_Fiber_Strip.jpeg', 'Carbon Fiber Flat Strip', 1, true),
+(15, '/products/cured_products/Carbon_Fiber_Angles.jpeg', 'Fiberglass Angle Profile', 1, true),
+(16, '/products/cured_products/Carbon_Fiber_Sheet.jpeg', '3K Twill Carbon Sheet 2mm', 1, true),
+(17, '/products/cured_products/Forged_Carbon_Fiber_Plates.jpeg', '3K Twill Carbon Sheet 3mm', 1, true),
+(18, '/products/cured_products/G10_Laminates.jpeg', 'G10 FR4 Epoxy Sheet', 1, true),
+(19, '/products/cured_products/Sandwich_Panels.jpeg', 'Carbon Honeycomb Panel', 1, true),
+(20, '/products/cured_products/UD_Carbon_Fiber_Strips_for_High_End_Application.jpeg', 'Cured Carbon Laminate Strip', 1, true),
+(21, '/products/vaccum_bagging/Vacuum_Bagging_Film.jpeg', 'Nylon Vacuum Film 120C', 1, true),
+(22, '/products/vaccum_bagging/Heat_Shrink_Tape.jpeg', 'Autoclave Bagging Film 204C', 1, true),
+(23, '/products/vaccum_bagging/Peel_Ply.jpeg', 'Nylon Peel Ply 100g', 1, true),
+(24, '/products/vaccum_bagging/Breather_Cloth.jpeg', 'Polyester Breather Fabric', 1, true),
+(25, '/products/vaccum_bagging/Vacuum_Sealing_Tape.jpeg', 'Butyl Sealant Tape', 1, true);
 
 -- Insert Dynamic Specifications (Key-Value Pairs)
 INSERT INTO product_specifications (product_id, spec_name, spec_value, sort_order) VALUES

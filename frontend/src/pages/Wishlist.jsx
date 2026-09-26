@@ -8,6 +8,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import RatingStars from '../components/RatingStars';
 import PriceDisplay from '../components/PriceDisplay';
 import { useToast } from '../context/ToastContext';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 export default function Wishlist() {
   const { wishlistItems, removeFromWishlist } = useWishlist();
@@ -78,7 +79,8 @@ export default function Wishlist() {
               {/* Product Preview */}
               <div className="relative aspect-square bg-gray-50 rounded-xl p-4 flex items-center justify-center overflow-hidden">
                 <img
-                  src={product.image}
+                  src={normalizeProductImageUrl(product.image)}
+                  onError={handleImageError}
                   alt={product.name}
                   className="max-h-full max-w-full object-contain"
                 />

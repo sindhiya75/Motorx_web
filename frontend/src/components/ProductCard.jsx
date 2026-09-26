@@ -6,6 +6,7 @@ import PriceDisplay from './PriceDisplay';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
@@ -68,7 +69,8 @@ export default function ProductCard({ product }) {
       <div className="relative aspect-square w-full bg-gray-50 overflow-hidden flex items-center justify-center p-4">
         <Link to={`/products/${product.slug}`} className="w-full h-full flex items-center justify-center">
           <img
-            src={product.image}
+            src={normalizeProductImageUrl(product.image)}
+            onError={handleImageError}
             alt={product.name}
             loading="lazy"
             className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"

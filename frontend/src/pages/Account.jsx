@@ -13,9 +13,8 @@ export default function Account() {
   const userProfile = {
     name: "Ananya Sharma",
     email: "ananya.sharma@example.com",
-    phone: "+91 98765 43210",
     memberSince: "January 2026",
-    gstin: "29AAAAA0000A1Z5"
+    gstin: "36AAAAA0000A1Z5"
   };
 
   const sampleOrders = [
@@ -57,7 +56,7 @@ export default function Account() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-white">{userProfile.name}</h1>
-            <p className="text-xs text-blue-100 font-medium">{userProfile.email} • {userProfile.phone}</p>
+            <p className="text-xs text-blue-100 font-medium">{userProfile.email}</p>
             <span className="inline-block text-xs font-mono font-bold bg-blue-900/90 text-blue-200 px-2.5 py-0.5 rounded-md mt-1 border border-blue-700/50">
               GSTIN: {userProfile.gstin}
             </span>
@@ -72,43 +71,11 @@ export default function Account() {
         </button>
       </div>
 
-      {/* Account Navigation & Content Grid (3 cols left, 9 cols right) */}
+      {/* Account Navigation & Content Grid (9 cols left, 3 cols right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Left Sidebar Menu */}
-        <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-200 p-2 shadow-card space-y-1">
-          {[
-            { id: 'dashboard', label: 'Dashboard', icon: User },
-            { id: 'orders', label: 'My Orders', icon: Package },
-            { id: 'wishlist', label: `Wishlist (${wishlistItems.length})`, icon: Heart },
-            { id: 'addresses', label: 'Saved Addresses', icon: MapPin },
-            { id: 'profile', label: 'Profile Settings', icon: User },
-            { id: 'notifications', label: 'Notifications', icon: Bell }
-          ].map((item) => {
-            const IconComp = item.icon;
-            const active = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`w-full text-left px-4 py-3 rounded-xl font-bold text-xs flex items-center justify-between transition-colors ${
-                  active
-                    ? 'bg-blue-50 text-primary font-extrabold shadow-sm'
-                    : 'text-slate-700 font-bold hover:bg-gray-100 hover:text-navy'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <IconComp className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </div>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-400 font-bold" />
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Right Tab Content */}
-        <div className="lg:col-span-9 bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 shadow-card">
+        {/* Left Tab Content */}
+        <div className="lg:col-span-9 bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 shadow-card order-2 lg:order-1">
           
           {/* Tab 1: Dashboard */}
           {activeTab === 'dashboard' && (
@@ -226,9 +193,9 @@ export default function Account() {
                   <span className="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">Default</span>
                 </div>
                 <div className="text-gray-700">
-                  Flat 402, Aero Heights, Koramangala 8th Block, Near Sony World Signal
+                  Plot No. 3-898, Sri Swamy Ayyappa Cooperative Society, Road No. 1, Madhapur
                 </div>
-                <div className="text-gray-600">Bengaluru, Karnataka — 560095, India</div>
+                <div className="text-gray-600">Hyderabad, Telangana — 500081, India</div>
               </div>
             </div>
           )}
@@ -264,6 +231,39 @@ export default function Account() {
           )}
 
         </div>
+
+        {/* Right Sidebar Menu */}
+        <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-200 p-2 shadow-card space-y-1 order-1 lg:order-2 lg:sticky lg:top-24">
+          {[
+            { id: 'dashboard', label: 'Dashboard', icon: User },
+            { id: 'orders', label: 'My Orders', icon: Package },
+            { id: 'wishlist', label: `Wishlist (${wishlistItems.length})`, icon: Heart },
+            { id: 'addresses', label: 'Saved Addresses', icon: MapPin },
+            { id: 'profile', label: 'Profile Settings', icon: User },
+            { id: 'notifications', label: 'Notifications', icon: Bell }
+          ].map((item) => {
+            const IconComp = item.icon;
+            const active = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`w-full text-left px-4 py-3 rounded-xl font-bold text-xs flex items-center justify-between transition-colors ${
+                  active
+                    ? 'bg-blue-50 text-primary font-extrabold shadow-sm'
+                    : 'text-slate-700 font-bold hover:bg-gray-100 hover:text-navy'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <IconComp className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </div>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400 font-bold" />
+              </button>
+            );
+          })}
+        </div>
+
       </div>
     </div>
   );

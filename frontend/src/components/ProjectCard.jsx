@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Cpu, Wrench, Clock, ArrowRight, Layers } from 'lucide-react';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 export default function ProjectCard({ project }) {
   if (!project) return null;
@@ -10,7 +11,8 @@ export default function ProjectCard({ project }) {
       {/* Image Header */}
       <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
         <img
-          src={project.image}
+          src={normalizeProductImageUrl(project.image)}
+          onError={handleImageError}
           alt={project.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />

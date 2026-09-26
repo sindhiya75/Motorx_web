@@ -4,6 +4,7 @@ import { CheckCircle2, Truck, ArrowLeft, Box, Loader2, AlertCircle } from 'lucid
 import { fetchOrderByNumber } from '../services/api';
 import { formatINR } from '../utils/formatINR';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { normalizeProductImageUrl, handleImageError } from '../utils/imageHelper';
 
 export default function OrderTracking() {
   const { orderId } = useParams();
@@ -187,7 +188,14 @@ export default function OrderTracking() {
           {order.items.map(item => (
             <div key={item.id} className="flex items-center justify-between font-semibold text-gray-800 bg-white p-3 rounded-xl border border-gray-200">
               <div className="flex items-center gap-3">
-                {item.image && <img src={item.image} alt={item.name} className="w-8 h-8 object-contain rounded border p-0.5" />}
+                {item.image && (
+                  <img
+                    src={normalizeProductImageUrl(item.image)}
+                    onError={handleImageError}
+                    alt={item.name}
+                    className="w-8 h-8 object-contain rounded border p-0.5"
+                  />
+                )}
                 <div>
                   <div>{item.name}</div>
                   <div className="text-[11px] text-gray-400 font-mono">SKU: {item.sku}</div>
