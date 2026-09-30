@@ -142,7 +142,7 @@ export default function AdminLogin() {
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-blue-50 border border-blue-200/80 text-primary text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <Sparkles className="w-3 h-3 text-primary" />
-                <span>MOTORX CONTROL PANEL</span>
+                <span>SEVAL DRONES CONTROL PANEL</span>
               </div>
 
               <div className="space-y-0.5">
@@ -184,7 +184,7 @@ export default function AdminLogin() {
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="admin@motorx.com"
+                    placeholder="admin@sevaldrones.com"
                     className="w-full pl-9 pr-3 py-2.5 text-xs font-semibold bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all text-gray-900 placeholder:text-gray-400 placeholder:font-normal"
                   />
                   <Mail className="w-4 h-4 text-slate-400 group-focus-within:text-primary absolute left-3 top-3 transition-colors pointer-events-none" />
@@ -295,7 +295,7 @@ export default function AdminLogin() {
                     autoComplete="email"
                     value={recoveryEmail}
                     onChange={(e) => setRecoveryEmail(e.target.value)}
-                    placeholder="name@motorx.com"
+                    placeholder="name@sevaldrones.com"
                     className="w-full pl-9 pr-3 py-2.5 text-xs font-semibold bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all text-gray-900 placeholder:text-gray-400 font-medium"
                   />
                   <Mail className="w-4 h-4 text-slate-400 group-focus-within:text-primary absolute left-3 top-3 transition-colors pointer-events-none" />

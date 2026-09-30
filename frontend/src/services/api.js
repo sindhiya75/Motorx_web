@@ -35,7 +35,7 @@ export async function fetchBrands() {
     console.warn('Backend brands API unreachable, using local fallback:', err.message);
   }
   return [
-    { id: 1, name: 'MOTORX', slug: 'motorx' },
+    { id: 1, name: 'Seval Drones', slug: 'seval-drones' },
     { id: 2, name: 'AeroDrive', slug: 'aerodrive' },
     { id: 3, name: 'FluxMotion', slug: 'fluxmotion' },
     { id: 4, name: 'SkyTorque', slug: 'skytorque' },

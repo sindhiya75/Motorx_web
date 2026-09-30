@@ -53,7 +53,7 @@ const getAdminProducts = async (req, res, next) => {
         salePrice: row.sale_price ? parseFloat(row.sale_price) : null,
         category: row.category_name || 'General Composites',
         categoryId: row.category_id,
-        brand: row.brand_name || 'MOTORX Composites',
+        brand: row.brand_name || 'Seval Drones Composites',
         brandId: row.brand_id,
         rating: parseFloat(row.rating || 0),
         reviewCount: row.review_count,

@@ -92,7 +92,7 @@ export default function Checkout() {
           key: data.keyId,
           amount: data.amount,
           currency: data.currency || 'INR',
-          name: 'MOTORX Composites',
+          name: 'SEVAL DRONES',
           description: `Order #${data.orderNumber}`,
           order_id: data.razorpayOrderId,
           prefill: {

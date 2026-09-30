@@ -1,5 +1,5 @@
 /**
- * Image normalization and error-handling utilities for MOTORX Web.
+ * Image normalization and error-handling utilities for Seval Drones Web.
  * Ensures consistent resolution of product images from frontend/public/products.
  */
 

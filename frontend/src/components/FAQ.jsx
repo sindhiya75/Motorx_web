@@ -31,11 +31,11 @@ export default function FAQ() {
     },
     {
       question: "Do motor prices include GST?",
-      answer: "Product prices displayed on MOTORX show both Excl. GST and Incl. GST pricing breakdown transparently. Standard 18% GST applies to electronic motor components in India, and tax invoices with your company's GSTIN are generated upon checkout."
+      answer: "Product prices displayed on Seval Drones show both Excl. GST and Incl. GST pricing breakdown transparently. Standard 18% GST applies to electronic motor components in India, and tax invoices with your company's GSTIN are generated upon checkout."
     },
     {
       question: "Do you provide pan-India delivery?",
-      answer: "Yes! MOTORX ships across India using premium express courier partners (Bluedart, Delhivery, DTDC, India Post). Standard delivery takes 3–5 business days, while Express shipping takes 1–2 business days for major metro cities."
+      answer: "Yes! Seval Drones ships across India using premium express courier partners (Bluedart, Delhivery, DTDC, India Post). Standard delivery takes 3–5 business days, while Express shipping takes 1–2 business days for major metro cities."
     },
     {
       question: "What happens if a motor is out of stock?",
@@ -62,7 +62,7 @@ export default function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-sm text-gray-500 mt-2">
-            Everything you need to know about MOTORX drone motors, specifications, and shipping.
+            Everything you need to know about Seval Drones motors, specifications, and shipping.
           </p>
         </div>
 

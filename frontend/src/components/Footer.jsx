@@ -10,9 +10,9 @@ export default function Footer() {
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 bg-primary text-white font-extrabold rounded-lg flex items-center justify-center text-xs">
-                MX
+                SD
               </div>
-              <span className="font-extrabold text-lg text-white tracking-wider">MOTORX</span>
+              <span className="font-extrabold text-lg text-white tracking-wider">SEVAL DRONES</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed font-normal">
               High-performance brushless motors, ESC powertrains, and composite engineering materials across India.
@@ -51,7 +51,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-6 border-t border-gray-800 text-center text-xs text-slate-300 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© 2026 MOTORX. All Rights Reserved.</p>
+          <p>© 2026 SEVAL DRONES. All Rights Reserved.</p>
           <div className="flex items-center gap-4 text-slate-300 text-xs font-medium">
             <span>Automotive & UAV Powertrain Engineering</span>
             <span className="text-blue-300/60 font-bold">•</span>

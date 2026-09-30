@@ -25,7 +25,7 @@ export default function FilterSidebar({
     ? ["All Products", ...categories.map(c => c.name)]
     : defaultCategories;
 
-  const defaultBrands = ["MOTORX Composites", "AeroCore Systems", "PolyForm Moulds", "TitanPultrusion", "VacuSeal Tech"];
+  const defaultBrands = ["Seval Drones Composites", "AeroCore Systems", "PolyForm Moulds", "TitanPultrusion", "VacuSeal Tech"];
   const brandsList = brands.length > 0
     ? brands.map(b => b.name)
     : defaultBrands;

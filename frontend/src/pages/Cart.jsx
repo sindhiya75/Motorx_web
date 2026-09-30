@@ -20,11 +20,11 @@ export default function Cart() {
     e.preventDefault();
     if (!couponCode.trim()) return;
     const clean = couponCode.trim().toUpperCase();
-    if (clean === 'MOTORX10' || clean === 'FREESHIP' || clean === 'FIRST500') {
+    if (clean === 'SEVAL10' || clean === 'MOTORX10' || clean === 'FREESHIP' || clean === 'FIRST500') {
       setAppliedCoupon(clean);
       addToast(`Coupon "${clean}" applied successfully!`, 'success');
     } else {
-      addToast('Invalid coupon code. Try MOTORX10 or FREESHIP', 'error');
+      addToast('Invalid coupon code. Try SEVAL10 or FREESHIP', 'error');
     }
   };
 
@@ -134,7 +134,7 @@ export default function Cart() {
           <div className="bg-white rounded-2xl border border-gray-200 p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs font-bold text-navy">
               <Tag className="w-4 h-4 text-primary" />
-              <span>Have a promo coupon? Try MOTORX10 or FREESHIP</span>
+              <span>Have a promo coupon? Try SEVAL10 or FREESHIP</span>
             </div>
 
             <form onSubmit={handleApplyCoupon} className="flex gap-2 w-full sm:w-auto">

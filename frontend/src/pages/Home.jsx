@@ -63,7 +63,7 @@ export default function Home() {
     return () => { isMounted = false; };
   }, []);
 
-  const whyMotorXHighlights = [
+  const whySevalDronesHighlights = [
     {
       title: "High Torque Density Motors",
       desc: "Engineered with Japanese NMB bearings, oxygen-free copper windings, and curved N52 Neodymium magnets for peak efficiency.",
@@ -118,7 +118,7 @@ export default function Home() {
     <div className="space-y-16 pb-16">
       
       {/* 1. PROFESSIONAL AUTOMOTIVE HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-navy-deep via-navy to-navy-light text-white py-16 sm:py-24 border-b border-gray-800">
+      <section className="relative overflow-hidden bg-gradient-to-br from-navy-deep via-navy to-navy-light text-white py-6 sm:py-10 lg:py-12 border-b border-gray-800">
         {/* Glow ambient effects */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl pointer-events-none -z-0" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-0" />
@@ -130,7 +130,7 @@ export default function Home() {
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/20 border border-primary/40 text-blue-300 text-xs font-extrabold uppercase tracking-wider shadow-sm">
                 <Sparkles className="w-4 h-4 text-amber-400" />
-                <span>MOTORX AUTOMOTIVE & HIGH-PERFORMANCE MOTORS</span>
+                <span>SEVAL DRONES AUTOMOTIVE & HIGH-PERFORMANCE MOTORS</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-white">
@@ -186,17 +186,17 @@ export default function Home() {
                     <img
                       src={normalizeProductImageUrl('/products/cured_products/Carbon_Fiber_Sheet.jpeg')}
                       onError={handleImageError}
-                      alt="MOTORX High Performance Composites"
+                      alt="Seval Drones High Performance Composites"
                       className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4 bg-navy text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                      MX-2207 PRO
+                      SD-2207 PRO
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between pt-2">
                     <div>
-                      <h3 className="font-bold text-navy text-sm sm:text-base">MOTORX AeroDrive 2207 Motor</h3>
+                      <h3 className="font-bold text-navy text-sm sm:text-base">Seval Drones AeroDrive 2207 Motor</h3>
                       <p className="text-xs text-gray-500">2450KV • NMB Bearings • 4S-6S LiPo</p>
                     </div>
                     <div className="text-right">
@@ -259,7 +259,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. WHY MOTORX SECTION - AEROSPACE GRADE GLASSMORPHISM */}
+      {/* 4. WHY SEVAL DRONES SECTION - AEROSPACE GRADE GLASSMORPHISM */}
       <section className="relative overflow-hidden bg-gradient-to-br from-navy-deep via-navy to-navy-light text-white py-20 sm:py-24 border-y border-gray-800">
         {/* Glow ambient background effects */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl pointer-events-none -z-0" />
@@ -273,7 +273,7 @@ export default function Home() {
               <span>ENGINEERING & COMPOSITES EXCELLENCE</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-primary-light">MOTORX</span>?
+              Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-primary-light">SEVAL DRONES</span>?
             </h2>
             <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
               Engineered with aerospace-grade standards, continuous thermal endurance, and strict quality certification.
@@ -281,7 +281,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {whyMotorXHighlights.map((item, idx) => {
+            {whySevalDronesHighlights.map((item, idx) => {
               const IconComp = item.icon;
               return (
                 <div
@@ -356,16 +356,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. ABOUT MOTORX PREVIEW */}
+      {/* 6. ABOUT SEVAL DRONES PREVIEW */}
       <section id="guide" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-8 sm:p-12 rounded-3xl border border-gray-200 shadow-card">
           <div className="lg:col-span-6 space-y-4">
-            <span className="text-xs font-extrabold text-primary uppercase tracking-wider">ABOUT MOTORX</span>
+            <span className="text-xs font-extrabold text-primary uppercase tracking-wider">ABOUT SEVAL DRONES</span>
             <h2 className="text-2xl sm:text-3xl font-bold text-navy">
               Pioneering High Performance Electric Motors & Powertrains
             </h2>
             <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-              MotorX is a dedicated automotive and industrial motor platform delivering high torque brushless motors, ESC speed controllers, composite structural materials, and power accessories across India.
+              Seval Drones is a dedicated automotive and industrial drone & motor platform delivering high torque brushless motors, ESC speed controllers, composite structural materials, and power accessories across India.
             </p>
             <div className="space-y-2 pt-2 text-xs font-semibold text-navy">
               <div className="flex items-center gap-2">
@@ -411,7 +411,7 @@ export default function Home() {
           <div className="lg:col-span-5 space-y-6">
             <div>
               <span className="text-xs font-extrabold text-primary uppercase tracking-wider">GET IN TOUCH</span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-navy mt-1">Contact MotorX Team</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-navy mt-1">Contact Seval Drones Team</h2>
               <p className="text-xs sm:text-sm text-gray-500 mt-2">
                 Have questions about motor compatibility, bulk pricing, or custom engineering specs? Reach out directly.
               </p>

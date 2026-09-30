@@ -29,13 +29,13 @@ const sendPasswordResetOtp = async (toEmail, adminName, otpCode) => {
       });
 
       const mailOptions = {
-        from: process.env.SMTP_FROM || `"MOTORX Security" <${process.env.SMTP_USER}>`,
+        from: process.env.SMTP_FROM || `"Seval Drones Security" <${process.env.SMTP_USER}>`,
         to: toEmail,
-        subject: `MOTORX Admin 2-Step Verification Code: ${otpCode}`,
+        subject: `Seval Drones Admin 2-Step Verification Code: ${otpCode}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
             <div style="text-align: center; margin-bottom: 24px;">
-              <h2 style="color: #062B5C; margin: 0; font-size: 24px; font-weight: 800;">MOTORX</h2>
+              <h2 style="color: #062B5C; margin: 0; font-size: 24px; font-weight: 800;">SEVAL DRONES</h2>
               <span style="font-size: 11px; color: #0756B8; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Admin Security Center</span>
             </div>
             

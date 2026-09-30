@@ -18,7 +18,7 @@ export function calculateCartSummary(cartItems = [], shippingMethod = 'standard'
   // Apply Coupon code if valid
   let discount = 0;
   const cleanCoupon = couponCode ? couponCode.trim().toUpperCase() : '';
-  if (cleanCoupon === 'MOTORX10') {
+  if (cleanCoupon === 'SEVAL10' || cleanCoupon === 'MOTORX10') {
     discount = Math.round(subtotal * 0.10);
   } else if (cleanCoupon === 'FIRST500' && subtotal >= 2000) {
     discount = 500;

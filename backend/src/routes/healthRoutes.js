@@ -13,13 +13,13 @@ router.get('/', async (req, res) => {
   if (dbStatus.connected) {
     return res.status(200).json({
       success: true,
-      message: 'MOTORX API is running',
+      message: 'Seval Drones API is running',
       database: 'connected'
     });
   } else {
     return res.status(503).json({
       success: false,
-      message: 'MOTORX API is running',
+      message: 'Seval Drones API is running',
       database: 'disconnected',
       error: dbStatus.error
     });

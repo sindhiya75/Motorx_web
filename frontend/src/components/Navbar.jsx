@@ -82,7 +82,7 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-xl sm:text-2xl tracking-wider text-navy leading-none">
-                MOTOR<span className="text-primary">X</span>
+                SEVAL <span className="text-primary">DRONES</span>
               </span>
               <span className="text-[10px] sm:text-xs font-extrabold text-slate-600 uppercase tracking-widest leading-tight">
                 POWER YOUR FLIGHT
@@ -254,9 +254,9 @@ export default function Navbar() {
                 <div className="flex items-center justify-between pb-3 border-b border-gray-100 shrink-0">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center font-bold shadow-sm">
-                      MX
+                      SD
                     </div>
-                    <span className="font-bold text-navy text-base">MOTORX</span>
+                    <span className="font-bold text-navy text-base">SEVAL DRONES</span>
                   </div>
                   <button
                     type="button"

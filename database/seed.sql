@@ -2,9 +2,9 @@
 
 TRUNCATE payments, order_items, orders, inventory, product_specifications, product_images, products, brands, categories, admins RESTART IDENTITY CASCADE;
 
--- Insert Seed Admin User (Email: admin@motorx.com, Password: Admin@123)
+-- Insert Seed Admin User (Email: admin@sevaldrones.com or admin@motorx.com, Password: Admin@123)
 INSERT INTO admins (name, email, password_hash, role) VALUES
-('Super Admin', 'admin@motorx.com', '$2b$10$d4G7dKepqh4A2iH8QuOVquvaBuXYDVckxX/PP9HgjybgWtsg6XMie', 'SUPERADMIN');
+('Super Admin', 'admin@sevaldrones.com', '$2b$10$d4G7dKepqh4A2iH8QuOVquvaBuXYDVckxX/PP9HgjybgWtsg6XMie', 'SUPERADMIN');
 
 -- Insert 5 Composite Categories
 INSERT INTO categories (name, slug, description, image) VALUES
@@ -16,7 +16,7 @@ INSERT INTO categories (name, slug, description, image) VALUES
 
 -- Insert Composite Brands
 INSERT INTO brands (name, slug, description) VALUES
-('MOTORX Composites', 'motorx-composites', 'Official MOTORX high performance structural composite series.'),
+('Seval Drones Composites', 'seval-drones-composites', 'Official Seval Drones high performance structural composite series.'),
 ('AeroCore Systems', 'aerocore-systems', 'Aerospace grade foam cores and structural sandwich materials.'),
 ('PolyForm Moulds', 'polyform-moulds', 'Precision CNC pattern boards and composite tooling solutions.'),
 ('TitanPultrusion', 'titanpultrusion', 'High-modulus carbon and glass fiber pultruded profiles.'),
@@ -46,8 +46,8 @@ INSERT INTO products (sku, name, slug, description, category_id, brand_id, price
 ('PP-ANGLE-050', 'Pultruded Structural Fiberglass Angle 50mm x 50mm x 5mm', 'pultruded-structural-fiberglass-angle-50mm-x-50mm-x-5mm', 'Heavy-duty corrosion-resistant pultruded GRP structural angle profile for harsh chemical environment walkways.', 3, 4, 1850.00, 1590.00, 'INR', 0.18, false, 4.60, 11, 'IN_STOCK', false, 80),
 
 -- Category 4: Cured Products
-('CP-CFS-3K-20', 'MOTORX 3K Twill Carbon Fiber Cured Sheet 2.0mm 500x400mm', 'motorx-3k-twill-carbon-fiber-cured-sheet-2-0mm-500x400mm', 'Autoclave cured 100% real 3K twill carbon fiber plate with high gloss pinhole-free aesthetic finish on both sides.', 4, 1, 3850.00, 3290.00, 'INR', 0.18, false, 4.90, 64, 'IN_STOCK', true, 99),
-('CP-CFS-3K-30', 'MOTORX 3K Twill Carbon Fiber Cured Sheet 3.0mm 500x400mm', 'motorx-3k-twill-carbon-fiber-cured-sheet-3-0mm-500x400mm', 'Rigid 3mm thick carbon fiber sheet for multirotor main chassis plates and precision CNC component milling.', 4, 1, 5200.00, 4490.00, 'INR', 0.18, false, 5.00, 42, 'IN_STOCK', true, 97),
+('CP-CFS-3K-20', 'Seval Drones 3K Twill Carbon Fiber Cured Sheet 2.0mm 500x400mm', 'seval-drones-3k-twill-carbon-fiber-cured-sheet-2-0mm-500x400mm', 'Autoclave cured 100% real 3K twill carbon fiber plate with high gloss pinhole-free aesthetic finish on both sides.', 4, 1, 3850.00, 3290.00, 'INR', 0.18, false, 4.90, 64, 'IN_STOCK', true, 99),
+('CP-CFS-3K-30', 'Seval Drones 3K Twill Carbon Fiber Cured Sheet 3.0mm 500x400mm', 'seval-drones-3k-twill-carbon-fiber-cured-sheet-3-0mm-500x400mm', 'Rigid 3mm thick carbon fiber sheet for multirotor main chassis plates and precision CNC component milling.', 4, 1, 5200.00, 4490.00, 'INR', 0.18, false, 5.00, 42, 'IN_STOCK', true, 97),
 ('CP-G10-020', 'G10 / FR4 Epoxy Glass Cured Laminate Sheet 2.0mm', 'g10-fr4-epoxy-glass-cured-laminate-sheet-2-0mm', 'High strength flame-retardant G10 epoxy fiberglass plate with high dielectric strength for electrical insulating barriers.', 4, 1, 1450.00, 1190.00, 'INR', 0.18, false, 4.70, 27, 'IN_STOCK', false, 86),
 ('CP-CFPANEL-50', 'Structural Carbon Fiber Honeycomb Sandwich Panel 10mm', 'structural-carbon-fiber-honeycomb-sandwich-panel-10mm', 'Ultra-lightweight cured carbon fiber skins bonded to Nomex core for extreme flexural stiffness.', 4, 1, 12500.00, 10800.00, 'INR', 0.18, false, 4.90, 15, 'IN_STOCK', true, 95),
 ('CP-UNI-10', 'Unidirectional Cured Carbon Laminate Strip 1.0mm', 'unidirectional-cured-carbon-laminate-strip-1-0mm', 'High tensile cured carbon laminate strip for localized flexural beam reinforcement.', 4, 4, 980.00, 820.00, 'INR', 0.18, false, 4.60, 18, 'IN_STOCK', false, 83),

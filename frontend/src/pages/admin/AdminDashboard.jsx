@@ -100,10 +100,10 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold text-white">
-              MX
+              SD
             </div>
             <div>
-              <span className="font-extrabold text-lg tracking-wider text-white">MOTORX</span>
+              <span className="font-extrabold text-lg tracking-wider text-white">SEVAL DRONES</span>
               <span className="ml-2 text-[10px] bg-primary/30 text-blue-300 px-2 py-0.5 rounded border border-primary/40 font-mono">
                 ADMIN PORTAL
               </span>
@@ -484,7 +484,7 @@ function ProductsTab() {
                     </td>
                     <td className="p-4">
                       <div className="font-bold text-slate-800 text-xs">{p.category || 'General Composites'}</div>
-                      <div className="text-[11px] text-gray-400">{p.brand || 'MOTORX Composites'}</div>
+                      <div className="text-[11px] text-gray-400">{p.brand || 'Seval Drones Composites'}</div>
                     </td>
                     <td className="p-4 font-mono font-bold text-primary">{p.sku}</td>
                     <td className="p-4 font-bold text-navy">
@@ -1041,7 +1041,7 @@ function InventoryTab() {
                         />
                         <div>
                           <div className="font-bold text-navy text-xs">{productName}</div>
-                          <div className="text-[11px] text-gray-400">{inv.brand || 'MOTORX Composites'}</div>
+                          <div className="text-[11px] text-gray-400">{inv.brand || 'Seval Drones Composites'}</div>
                         </div>
                       </td>
                       <td className="p-4 text-gray-600 font-medium">{inv.category || 'General Composites'}</td>
@@ -1296,7 +1296,7 @@ function CustomersTab() {
 function SettingsTab() {
   const { addToast } = useToast();
   const [settings, setSettings] = useState({
-    storeName: 'MOTORX E-Commerce',
+    storeName: 'Seval Drones E-Commerce',
     gstRate: '18',
     currency: 'INR (₹)',
     shippingFee: '150',

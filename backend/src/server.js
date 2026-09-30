@@ -67,7 +67,7 @@ app.use('/api/admin', adminRoutes);
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'Welcome to MOTORX E-Commerce API',
+    message: 'Welcome to Seval Drones E-Commerce API',
     endpoints: {
       health: '/api/health',
       categories: '/api/categories',
