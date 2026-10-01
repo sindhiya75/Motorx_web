@@ -38,29 +38,44 @@ export default function Home() {
 
   useEffect(() => {
     let isMounted = true;
+
     async function loadHomeData() {
       setLoading(true);
+
+      fetchCategories()
+        .then((cats) => {
+          if (isMounted) {
+            setCategoriesList(cats || []);
+          }
+        })
+        .catch((err) => {
+          console.warn('Failed loading categories:', err);
+        });
+
       try {
-        const [featRes, popRes, catsRes] = await Promise.all([
+        const [featRes, popRes] = await Promise.all([
           fetchProducts({ featured: true, limit: 8 }),
-          fetchProducts({ sort: 'popularity', limit: 8 }),
-          fetchCategories()
+          fetchProducts({ sort: 'popularity', limit: 8 })
         ]);
 
         if (isMounted) {
           setFeaturedProducts(featRes.data || []);
           setPopularProducts(popRes.data || []);
-          setCategoriesList(catsRes || []);
         }
       } catch (err) {
-        console.warn('Failed loading home page data:', err);
+        console.warn('Failed loading home products:', err);
       } finally {
-        if (isMounted) setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     loadHomeData();
-    return () => { isMounted = false; };
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const whySevalDronesHighlights = [
